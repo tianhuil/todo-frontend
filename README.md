@@ -45,3 +45,8 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
+
+## Sources:
+
+1. [This blog](https://blog.blackbox-vision.tech/making-a-beautiful-todo-app-using-react-hooks-material-ui/) gives us a nice material-ui styling
+2. [React Documentation](https://reactjs.org/docs/hooks-reference.html#usereducer) gives us how to use hooks to simulate redux
