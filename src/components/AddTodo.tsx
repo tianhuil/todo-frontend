@@ -1,22 +1,34 @@
-import React, { memo } from 'react';
+import React, { memo, useRef } from 'react';
 import { TextField, Paper, Button, Grid } from '@material-ui/core';
 
 interface IAddTodoProps {
-  inputValue: string
-  onInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void
-  onInputKeyPress: (event: React.KeyboardEvent<HTMLInputElement>) => void
-  onButtonClick: () => void
+  addTodo: (text: string) => void
 }
 
-export const AddTodo = memo((props: IAddTodoProps) => (
-  <Paper style={{margin: 16, padding: 16}}>
+export const AddTodo = memo((props: IAddTodoProps) => {
+  const inputField = useRef<HTMLInputElement>(null)
+
+  function submitTodo() {
+    props.addTodo(inputField.current!.value)
+    inputField.current!.value = ''
+  }
+
+  function keyPress(event: React.KeyboardEvent<HTMLInputElement>) {
+    if (event.which === 13 || event.keyCode === 13) {
+      submitTodo()
+      return true
+    } else {
+      return false
+    }
+  }
+
+  return <Paper style={{margin: 16, padding: 16}}>
     <Grid container>
       <Grid xs={10} md={11} item style={{paddingRight: 16}}>
         <TextField
+          inputRef={inputField}
           placeholder='Add Todo here'
-          value={props.inputValue}
-          onChange={props.onInputChange}
-          onKeyPress={props.onInputKeyPress}
+          onKeyPress={keyPress}
           fullWidth
         />
       </Grid>
@@ -24,11 +36,11 @@ export const AddTodo = memo((props: IAddTodoProps) => (
         <Button
           color='secondary'
           variant='outlined'
-          onClick={props.onButtonClick}
+          onClick={submitTodo}
         >
           Add
         </Button>
       </Grid>
     </Grid>
   </Paper>
-))
+})

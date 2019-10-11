@@ -4,24 +4,14 @@ import { todoInitialState, todoReducer } from '../store/todos/reducers';
 import { Layout } from './Layout'
 import { TodoList } from './TodoList'
 import { AddTodo } from './AddTodo';
-import { useInputValue } from '../store/input';
-import { toggleTodo, deleteTodo } from '../store';
+import { toggleTodo, deleteTodo, addTodo } from '../store';
 
 const App = memo(props => {
   const [state, dispatch] = useReducer(todoReducer, todoInitialState)
 
-  const {
-    inputValue,
-    changeInput,
-    clearInput,
-    keyInput,
-  } = useInputValue('')
   return (<Layout>
     <AddTodo
-      inputValue={inputValue}
-      onInputChange={changeInput}
-      onInputKeyPress={keyInput}
-      onButtonClick={clearInput}
+      addTodo={(text) => dispatch(addTodo(text)) }
     />
     <TodoList
       todos={state.allIds.map(id => state.getById[id])}
