@@ -1,7 +1,7 @@
 import { addTodo, deleteTodo, toggleTodo } from './todos/actions'
 import { todoReducer, } from './todos/reducers'
 import { combineReducers, createStore,  } from 'redux'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { composeWithDevTools } from 'redux-devtools-extension'
 
 const reducer = combineReducers({
@@ -21,7 +21,5 @@ export function useReduxSelector<TSelected>(
 ): TSelected {
   return useSelector<State, TSelected>(selector, equalityFn)
 }
-
-export const useReduxDispatch = useDispatch
 
 export { addTodo, deleteTodo, toggleTodo }
