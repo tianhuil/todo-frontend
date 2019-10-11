@@ -5,6 +5,7 @@ import { Layout } from './Layout'
 import { TodoList } from './TodoList'
 import { AddTodo } from './AddTodo';
 import { useInputValue } from '../store/input';
+import { toggleTodo, deleteTodo } from '../store';
 
 const App = memo(props => {
   const [state, dispatch] = useReducer(todoReducer, todoInitialState)
@@ -24,12 +25,9 @@ const App = memo(props => {
     />
     <TodoList
       todos={state.allIds.map(id => state.getById[id])}
-      onItemCheck={() => {}}
-      onItemRemove={() => {}}
+      onItemCheck={(id) => dispatch(toggleTodo(id))}
+      onItemRemove={(id) => dispatch(deleteTodo(id))}
     />
-    {/* <List>
-      {state.allIds.map(id => <ListItem>{state.getById[id].text}</ListItem>)}
-    </List> */}
   </Layout>)
 })
 
