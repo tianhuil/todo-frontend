@@ -19,7 +19,7 @@ export const todoInitialState: TodoState = {
 }
 
 export function todoReducer(
-  state: TodoState,
+  state = todoInitialState,
   action: TodoActionTypes,
 ): TodoState {
   const { allIds, getById: getId, nextId } = state

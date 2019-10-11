@@ -42,7 +42,7 @@ interface ITooListProps {
   onItemCheck: (id: number) => void
 }
 
-export const TodoList = memo((props: ITooListProps) => (
+export const TodoList = (props: ITooListProps) => (
   <>
     {props.todos.length > 0 && (
       <Paper style={{margin: 16}}>
@@ -60,4 +60,4 @@ export const TodoList = memo((props: ITooListProps) => (
       </Paper>
     )}
   </>
-))
+)
