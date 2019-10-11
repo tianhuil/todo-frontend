@@ -1,28 +1,19 @@
-import React, { useReducer, memo } from 'react';
+import React from 'react';
 import './App.css';
-import { todoInitialState, todoReducer } from '../store/todos/reducers';
 import { Layout } from './Layout'
 import { TodoList } from './TodoList'
 import { AddTodo } from './AddTodo';
-import { toggleTodo, deleteTodo, addTodo, store, useReduxReducer, ReduxProvider } from '../store';
+import { store } from '../store';
+import { Provider } from 'react-redux';
 
 const App = () => {
-  const {getState, dispatch} = useReduxReducer()
-  const todo = getState().todo
-
   return (
-    <ReduxProvider>
+    <Provider store={store}>
       <Layout>
-        <AddTodo
-          addTodo={(text) => dispatch(addTodo(text)) }
-        />
-        <TodoList
-          todos={todo.allIds.map(id => todo.getById[id])}
-          onItemCheck={(id) => dispatch(toggleTodo(id))}
-          onItemRemove={(id) => dispatch(deleteTodo(id))}
-        />
+        <AddTodo />
+        <TodoList/>
       </Layout>
-    </ReduxProvider>
+    </Provider>
   )
 }
 

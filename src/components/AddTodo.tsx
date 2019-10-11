@@ -1,15 +1,14 @@
-import React, { memo, useRef } from 'react';
+import React, { useRef } from 'react';
 import { TextField, Paper, Button, Grid } from '@material-ui/core';
+import { useDispatch } from 'react-redux';
+import { addTodo } from '../store';
 
-interface IAddTodoProps {
-  addTodo: (text: string) => void
-}
-
-export const AddTodo = memo((props: IAddTodoProps) => {
+export const AddTodo = () => {
   const inputField = useRef<HTMLInputElement>(null)
+  const dispatch = useDispatch()
 
   function submitTodo() {
-    props.addTodo(inputField.current!.value)
+    dispatch(addTodo(inputField.current!.value))
     inputField.current!.value = ''
   }
 
@@ -43,4 +42,4 @@ export const AddTodo = memo((props: IAddTodoProps) => {
       </Grid>
     </Grid>
   </Paper>
-})
+}

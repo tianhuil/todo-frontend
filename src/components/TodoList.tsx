@@ -10,54 +10,53 @@ import {
   Paper,
 } from '@material-ui/core'
 import DeleteOutlined from '@material-ui/icons/DeleteOutlined';
-import { Todo } from '../store/todos/actions';
+import { Todo, toggleTodo, deleteTodo } from '../store/todos/actions';
+import { useReduxSelector } from '../store';
+import { useDispatch } from 'react-redux';
 
 interface ITodoProps {
-  onCheckBoxToggle: () => void
-  onButtonClick: () => void
+  id: number
   completed: boolean
   text: string
   divider: boolean
 }
 
-const TodoListItem = memo((props: ITodoProps) => (
-  <ListItem divider={props.divider}>
+const TodoListItem = memo((props: ITodoProps) => {
+  const dispatch = useDispatch()
+
+  return <ListItem divider={props.divider}>
     <Checkbox
-      onClick={props.onCheckBoxToggle}
+      onClick={() => dispatch(toggleTodo(props.id))}
       checked={props.completed}
       disableRipple
     />
     <ListItemText primary={props.text} />
     <ListItemSecondaryAction>
-      <IconButton arial-label='Delete Todo' onClick={props.onButtonClick}>
+      <IconButton arial-label='Delete Todo' onClick={() => dispatch(deleteTodo(props.id))}>
         <DeleteOutlined />
       </IconButton>
     </ListItemSecondaryAction>
   </ListItem>
-))
+})
 
-interface ITooListProps {
-  todos: Todo[]
-  onItemRemove: (id: number) => void
-  onItemCheck: (id: number) => void
+export const TodoList = () => {
+  const todoState = useReduxSelector(state => state.todo)
+  const todos = todoState.allIds.map(id => todoState.getById[id])
+
+  if (todos.length > 0) {
+    return <Paper style={{margin: 16}}>
+      <List style={{ overflow: 'scroll'}}>
+        {todos.map((todo, id) => (
+          <TodoListItem
+            { ...todo }
+            key={`TodoItem.${id}`}
+            id={id}
+            divider={id !== todos.length - 1}
+          />
+        ))}
+      </List>
+    </Paper>
+  } else {
+    return null
+  }
 }
-
-export const TodoList = (props: ITooListProps) => (
-  <>
-    {props.todos.length > 0 && (
-      <Paper style={{margin: 16}}>
-        <List style={{ overflow: 'scroll'}}>
-          {props.todos.map((todo, id) => (
-            <TodoListItem
-              { ...todo }
-              key={`TodoItem.${id}`}
-              divider={id !== props.todos.length - 1}
-              onButtonClick={() => props.onItemRemove(id)}
-              onCheckBoxToggle={() => props.onItemCheck(id)}
-            />
-          ))}
-        </List>
-      </Paper>
-    )}
-  </>
-)
