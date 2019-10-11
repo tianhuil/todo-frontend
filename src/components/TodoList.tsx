@@ -8,7 +8,6 @@ import {
   ListItemText,
   ListItemSecondaryAction,
   Paper,
-  Grid,
 } from '@material-ui/core'
 import DeleteOutlined from '@material-ui/icons/DeleteOutlined';
 import { Todo } from '../store/todos/actions';
