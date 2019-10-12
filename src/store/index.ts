@@ -32,4 +32,9 @@ export function useReduxSelector<TSelected>(
   return useSelector<State, TSelected>(selector, equalityFn)
 }
 
+export function stateStatusSelector(state: State): Status {
+  const pathname = state.router.location.pathname as Status
+  return Object.values(Status).includes(pathname) ? (pathname) : Status.All
+}
+
 export { addTodo, deleteTodo, toggleTodo, Status }
