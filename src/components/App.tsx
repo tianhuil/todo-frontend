@@ -1,5 +1,4 @@
 import React from 'react';
-import './App.css';
 import { Layout } from './Layout'
 import { TodoList } from './TodoList'
 import { AddTodo } from './AddTodo';
