@@ -1,9 +1,4 @@
-import { addTodo, deleteTodo, toggleTodo } from './todos/actions'
-import { todoReducer, } from './todos/reducers'
-import { combineReducers, createStore, applyMiddleware,  } from 'redux'
-import { useSelector } from 'react-redux'
-import { connectRouter, routerMiddleware, push } from 'connected-react-router'
-import { composeWithDevTools } from 'redux-devtools-extension'
+import { connectRouter, push } from 'connected-react-router'
 import { createBrowserHistory } from 'history'
 import { Status } from './utils'
 
