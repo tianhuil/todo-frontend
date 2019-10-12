@@ -13,6 +13,9 @@
     "@types/react-redux": "^7.1.4",
     "@types/react-router": "^5.1.1",
     "connected-react-router": "^6.5.2",
+    "cuid": "^2.1.6",
+    "dot-env": "^0.0.1",
+    "firebase": "^7.2.0",
     "history": "^4.10.1",
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
@@ -21,13 +24,15 @@
     "react-scripts": "3.2.0",
     "redux-devtools": "^3.5.0",
     "redux-devtools-extension": "^2.13.8",
+    "ts-node": "^8.4.1",
     "typescript": "3.6.3"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "seed": "ts-node -r dotenv/config -T src/batch/seedFirestore.ts"
   },
   "eslintConfig": {
     "extends": "react-app"
