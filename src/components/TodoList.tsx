@@ -11,7 +11,7 @@ import {
 } from '@material-ui/core'
 import DeleteOutlined from '@material-ui/icons/DeleteOutlined';
 import { toggleTodo, deleteTodo } from '../store/todos/actions';
-import { useReduxSelector } from '../store';
+import { useReduxSelector, Status, State } from '../store';
 import { useDispatch } from 'react-redux';
 
 interface ITodoProps {
@@ -38,8 +38,20 @@ const TodoListItem = memo((props: ITodoProps) => {
   </ListItem>
 })
 
+function todoListSelector(state: State) {
+  function display(completed: boolean) {
+    switch(state.router.location.pathname) {
+      case Status.All: return true
+      case Status.Completed: return completed
+      case Status.Incompleted: return !completed
+      default: return true
+    }
+  }
+  return state.todo.allIds.filter(id => display(state.todo.getById[id].completed))
+}
+
 export const TodoList = () => {
-  const ids = useReduxSelector(state => state.todo.allIds)
+  const ids = useReduxSelector(todoListSelector)
 
   if (ids.length > 0) {
     return <Paper style={{margin: 16}}>
