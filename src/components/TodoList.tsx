@@ -39,7 +39,7 @@ const TodoListItem = memo((props: ITodoProps) => {
 })
 
 function todoListSelector(state: State) {
-  function display(completed: boolean) {
+  function statusFilter(completed: boolean) {
     switch(state.router.location.pathname) {
       case Status.All: return true
       case Status.Completed: return completed
@@ -47,7 +47,7 @@ function todoListSelector(state: State) {
       default: return true
     }
   }
-  return state.todo.allIds.filter(id => display(state.todo.getById[id].completed))
+  return state.todo.allIds.filter(id => statusFilter(state.todo.getById[id].completed))
 }
 
 export const TodoList = () => {
