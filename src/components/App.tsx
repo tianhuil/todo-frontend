@@ -8,6 +8,7 @@ import { Redirect, Route, Switch } from 'react-router'
 import { Status } from '../store/utils';
 import { ConnectedRouter } from 'connected-react-router';
 import { Header } from './Header'
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
 const Body = () => (
   <Layout>
@@ -19,16 +20,18 @@ const Body = () => (
 
 const App = () => {
   return (
-    <Provider store={store}>
-      <ConnectedRouter history={history}>
-        <Switch>
-          <Route exact path={Status.All} render={Body}/>
-          <Route exact path={Status.Completed} render={Body}/>
-          <Route exact path={Status.Incompleted} render={Body}/>
-          <Redirect to={Status.All} />
-        </Switch>
-      </ConnectedRouter>
-    </Provider>
+    <MuiThemeProvider theme={createMuiTheme()}>
+      <Provider store={store}>
+        <ConnectedRouter history={history}>
+          <Switch>
+            <Route exact path={Status.All} render={Body}/>
+            <Route exact path={Status.Completed} render={Body}/>
+            <Route exact path={Status.Incompleted} render={Body}/>
+            <Redirect to={Status.All} />
+          </Switch>
+        </ConnectedRouter>
+      </Provider>
+    </MuiThemeProvider>
   )
 }
 
