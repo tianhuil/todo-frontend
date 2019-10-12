@@ -6,6 +6,7 @@ import { StatusButton } from './StatusButton'
 import { Status } from '../store'
 import makeStyles from '@material-ui/styles/makeStyles/makeStyles'
 import { fade } from '@material-ui/core/styles/colorManipulator'
+import { Query } from './Query'
 
 const useStyles = makeStyles((theme: Theme) => ({
   logo: {
@@ -36,6 +37,7 @@ export const Header: React.SFC = () => {
         <Typography variant='h6' className={classes.logo}>
           Todo List
         </Typography>
+        <Query/>
         <div className={classes.statusButtons}>
           <StatusButton status={Status.All} tooltip='View All'>
             All

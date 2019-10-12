@@ -11,7 +11,7 @@ import {
 } from '@material-ui/core'
 import DeleteOutlined from '@material-ui/icons/DeleteOutlined';
 import { toggleTodo, deleteTodo } from '../store/todos/actions';
-import { useReduxSelector, Status, State, stateStatusSelector } from '../store';
+import { useReduxSelector, Status, State, stateStatusSelector, stateQuerySelector } from '../store';
 import { useDispatch } from 'react-redux';
 
 interface ITodoProps {
@@ -39,14 +39,26 @@ const TodoListItem = memo((props: ITodoProps) => {
 })
 
 function todoListSelector(state: State) {
+  const status = stateStatusSelector(state)
   function statusFilter(completed: boolean) {
-    switch(stateStatusSelector(state)) {
+    switch(status) {
       case Status.All: return true
       case Status.Completed: return completed
       case Status.Incompleted: return !completed
     }
   }
-  return state.todo.allIds.filter(id => statusFilter(state.todo.getById[id].completed))
+
+  const query = stateQuerySelector(state)
+  function queryFilter(text: string) {
+    return text ? text.toLowerCase().includes(query.toLowerCase()) : true
+  }
+  return state.todo.allIds.filter(
+    id => {
+      const todo =state.todo.getById[id]
+      return statusFilter(todo.completed)
+        && queryFilter(todo.text)
+    }
+  )
 }
 
 export const TodoList = () => {

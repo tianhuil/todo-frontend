@@ -2,16 +2,14 @@ import { addTodo, deleteTodo, toggleTodo } from './todos/actions'
 import { todoReducer, } from './todos/reducers'
 import { combineReducers, createStore, applyMiddleware,  } from 'redux'
 import { useSelector } from 'react-redux'
-import { connectRouter, routerMiddleware } from 'connected-react-router'
+import { routerMiddleware } from 'connected-react-router'
 import { composeWithDevTools } from 'redux-devtools-extension'
-import { createBrowserHistory } from 'history'
 import { Status } from './utils'
-
-export const history = createBrowserHistory()
+import { routerReducer, history, statusSelector, querySelector , filterPush } from './filter'
 
 const reducer = combineReducers({
   todo: todoReducer,
-  router: connectRouter(history),
+  router: routerReducer,
 })
 
 export const store = createStore(
@@ -33,8 +31,11 @@ export function useReduxSelector<TSelected>(
 }
 
 export function stateStatusSelector(state: State): Status {
-  const pathname = state.router.location.pathname as Status
-  return Object.values(Status).includes(pathname) ? (pathname) : Status.All
+  return statusSelector(state.router)
 }
 
-export { addTodo, deleteTodo, toggleTodo, Status }
+export function stateQuerySelector(state: State): string {
+  return querySelector(state.router)
+}
+
+export { addTodo, deleteTodo, toggleTodo, Status, history, filterPush }
