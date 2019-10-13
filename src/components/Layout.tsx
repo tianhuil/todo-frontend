@@ -1,6 +1,6 @@
 import React, { memo } from 'react';
 
-import { AppBar, Toolbar, Typography, Paper } from '@material-ui/core';
+import { Paper } from '@material-ui/core';
 
 export const Layout = memo(props => {
   return (
