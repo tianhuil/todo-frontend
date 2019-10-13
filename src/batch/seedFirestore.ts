@@ -1,19 +1,7 @@
-import * as firebase from "firebase/app"
-// Required for side-effects -- sad
-// See https://firebase.google.com/docs/firestore/quickstart
-require("firebase/firestore");
-
+import { initializeFirestore } from '../firestore'
 import cuid from 'cuid'
 
-const firebaseConfig = {
-  projectId: process.env['PROJECT_ID']
-}
-
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
-
-export const db = firebase.firestore()
-
+const db = initializeFirestore()
 const collection = db.collection('todo')
 
 async function createDoc(datum: Object) {

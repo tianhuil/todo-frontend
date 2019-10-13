@@ -1,11 +1,13 @@
-import { addTodo, deleteTodo, toggleTodo } from './todos/actions'
+import { addTodo, deleteTodo, toggleTodo, ADD_TODO } from './todos/actions'
 import { todoReducer, } from './todos/reducers'
-import { combineReducers, createStore, applyMiddleware,  } from 'redux'
+import { Id, Todo } from './todos/types'
+import { combineReducers, createStore, applyMiddleware, Dispatch } from 'redux'
 import { useSelector } from 'react-redux'
 import { routerMiddleware } from 'connected-react-router'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import { Status } from './utils'
 import { routerReducer, history, statusSelector, querySelector , filterPush } from './filter'
+import { initializeFirestore } from '../firestore'
 
 const reducer = combineReducers({
   todo: todoReducer,
@@ -20,6 +22,29 @@ export const store = createStore(
     )
   )
 )
+
+export function subscribeToFirestore(dispatch: Dispatch) {
+  const db = initializeFirestore()
+
+  db.collection("todo").onSnapshot(snap => {
+    snap.docChanges().forEach(change => {
+      switch(change.type) {
+        case 'added': {
+          dispatch({ type: ADD_TODO, payload: change.doc.data() as Todo})
+          break;
+        }
+        case 'removed': {
+          console.error('Not Handled')
+          break;
+        }
+        case 'modified': {
+          console.error('Not Handled')
+          break;
+        }
+      }
+    })
+  })
+}
 
 export type State = ReturnType<typeof reducer>
 
@@ -39,3 +64,5 @@ export function stateQuerySelector(state: State): string {
 }
 
 export { addTodo, deleteTodo, toggleTodo, Status, history, filterPush }
+
+export type Id = Id

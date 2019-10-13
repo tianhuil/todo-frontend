@@ -11,11 +11,11 @@ import {
 } from '@material-ui/core'
 import DeleteOutlined from '@material-ui/icons/DeleteOutlined';
 import { toggleTodo, deleteTodo } from '../store/todos/actions';
-import { useReduxSelector, Status, State, stateStatusSelector, stateQuerySelector } from '../store';
+import { useReduxSelector, Status, State, Id, stateStatusSelector, stateQuerySelector } from '../store';
 import { useDispatch } from 'react-redux';
 
 interface ITodoProps {
-  id: number
+  id: Id
   divider: boolean
 }
 
