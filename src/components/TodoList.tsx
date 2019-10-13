@@ -10,7 +10,7 @@ import {
   Paper,
 } from '@material-ui/core'
 import DeleteOutlined from '@material-ui/icons/DeleteOutlined';
-import { toggleTodo, deleteTodo } from '../store/todos/actions';
+import { modifyTodo, removeTodo } from '../store/todos/actions';
 import { useReduxSelector, Status, State, Id, stateStatusSelector, stateQuerySelector } from '../store';
 import { useDispatch } from 'react-redux';
 
@@ -25,13 +25,19 @@ const TodoListItem = memo((props: ITodoProps) => {
 
   return <ListItem divider={props.divider}>
     <Checkbox
-      onClick={() => dispatch(toggleTodo(props.id))}
+      onClick={() => dispatch(modifyTodo({
+        id: props.id,
+        completed: !todo.completed,
+      }))}
       checked={todo.completed}
       disableRipple
     />
     <ListItemText primary={todo.text} />
     <ListItemSecondaryAction>
-      <IconButton arial-label='Delete Todo' onClick={() => dispatch(deleteTodo(props.id))}>
+      <IconButton
+        arial-label='Delete Todo'
+        onClick={() => dispatch(removeTodo(props.id))}
+      >
         <DeleteOutlined />
       </IconButton>
     </ListItemSecondaryAction>

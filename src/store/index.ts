@@ -1,4 +1,4 @@
-import { addTodo, deleteTodo, toggleTodo, ADD_TODO } from './todos/actions'
+import { addTodo, removeTodo, modifyTodo, newTodo, ADD_TODO } from './todos/actions'
 import { todoReducer, } from './todos/reducers'
 import { Id, Todo } from './todos/types'
 import { combineReducers, createStore, applyMiddleware, Dispatch } from 'redux'
@@ -30,16 +30,16 @@ export function subscribeToFirestore(dispatch: Dispatch) {
     snap.docChanges().forEach(change => {
       switch(change.type) {
         case 'added': {
-          dispatch({ type: ADD_TODO, payload: change.doc.data() as Todo})
-          break;
+          dispatch(addTodo(change.doc.data() as Todo))
+          break
         }
         case 'removed': {
           console.error('Not Handled')
-          break;
+          break
         }
         case 'modified': {
           console.error('Not Handled')
-          break;
+          break
         }
       }
     })
@@ -63,6 +63,6 @@ export function stateQuerySelector(state: State): string {
   return querySelector(state.router)
 }
 
-export { addTodo, deleteTodo, toggleTodo, Status, history, filterPush }
+export { addTodo, removeTodo, modifyTodo, newTodo, Status, history, filterPush }
 
 export type Id = Id

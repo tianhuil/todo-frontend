@@ -1,17 +1,19 @@
 import { action } from '../utils'
-import { Id } from './types'
+import { Id, Todo, PartialTodo } from './types'
 import cuid from 'cuid'
 
 export const ADD_TODO = 'ADD_TODO'
 export const MODIFY_TODO = 'MODIFY_TODO'
-export const DELETE_TODO = 'DELETE_TODO'
+export const REMOVE_TODO = 'REMOVE_TODO'
 
-export const addTodo = (text: string) => action(ADD_TODO, { text, id: cuid(), completed: false })
+export const addTodo = (todo: Todo) => action(ADD_TODO, todo)
 
-export const toggleTodo = (id: Id) => action(MODIFY_TODO, { id })
+export const newTodo = (text: string) => addTodo({id: cuid(), text, completed: false})
 
-export const deleteTodo = (id: Id) => action(DELETE_TODO, { id })
+export const modifyTodo = (todoPartial: PartialTodo) => action(MODIFY_TODO, todoPartial)
+
+export const removeTodo = (id: Id) => action(REMOVE_TODO, { id })
 
 export type TodoActionTypes = ReturnType<typeof addTodo>
-                            | ReturnType<typeof toggleTodo>
-                            | ReturnType<typeof deleteTodo>
+                            | ReturnType<typeof modifyTodo>
+                            | ReturnType<typeof removeTodo>

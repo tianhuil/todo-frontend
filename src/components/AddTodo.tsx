@@ -1,14 +1,14 @@
 import React, { useRef } from 'react';
 import { TextField, Paper, Button, Grid } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
-import { addTodo } from '../store';
+import { newTodo } from '../store';
 
 export const AddTodo = () => {
   const inputField = useRef<HTMLInputElement>(null)
   const dispatch = useDispatch()
 
   function submitTodo() {
-    dispatch(addTodo(inputField.current!.value))
+    dispatch(newTodo(inputField.current!.value))
     inputField.current!.value = ''
   }
 
