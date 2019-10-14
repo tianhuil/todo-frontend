@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { subscribeToFirestore } from "../store";
+import { subscribeToFirestore } from "../firestore";
 
 export const DataLoader = (props: React.PropsWithChildren<{}>) => {
   const dispatch = useDispatch()

@@ -1,3 +1,4 @@
 import { initializeFirestore } from './initialize'
+import { subscribeToFirestore } from './subscribe'
 
-export { initializeFirestore }
+export { initializeFirestore, subscribeToFirestore }
