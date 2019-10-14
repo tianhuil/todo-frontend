@@ -3,6 +3,11 @@ React Frontend (using Hooks) and Firebase.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## TODO:
+
+1. Keep track of `unsynced` state where data is in redux but not in the main database
+2. Build in [persmissions to the server(https://firebase.google.com/docs/firestore/solutions/role-based-access).
+
 ## Available Scripts
 
 In the project directory, you can run:
