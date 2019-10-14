@@ -1,4 +1,4 @@
-import { addTodo, removeTodo, modifyTodo, newTodo, ADD_TODO } from './todos/actions'
+import { addTodo, removeTodo, modifyTodo, newTodo } from './todos/actions'
 import { todoReducer, } from './todos/reducers'
 import { Id, Todo } from './todos/types'
 import { combineReducers, createStore, applyMiddleware, Dispatch } from 'redux'
