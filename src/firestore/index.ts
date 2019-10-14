@@ -38,7 +38,7 @@ export class TodoFirestore {
     await this.todoCollection.doc(partialTodo.id).update(partialTodo)
   }
 
-  async remove(id: Id) {
+  async delete(id: Id) {
     await this.todoCollection.doc(id).delete()
   }
 }

@@ -1,5 +1,5 @@
 import { TodoFirestore } from "../../firestore";
-import { addTodo, modifyTodo, removeTodo } from "./actions";
+import { addTodo, modifyTodo, deleteTodo } from "./actions";
 import { Todo, PartialTodo, Id } from "./types";
 import { Dispatch } from "redux";
 import cuid from 'cuid'
@@ -20,7 +20,7 @@ export class TodoHandler {
             break
           }
           case 'removed': {
-            dispatch(removeTodo((change.doc.data() as Todo).id))
+            dispatch(deleteTodo((change.doc.data() as Todo).id))
             break
           }
         }
@@ -42,9 +42,9 @@ export class TodoHandler {
     await this.todoFirestore.modify(partialTodo)
   }
 
-  async remove(dispatch: Dispatch, id: Id) {
-    dispatch(removeTodo(id))
-    await this.todoFirestore.remove(id)
+  async delete(dispatch: Dispatch, id: Id) {
+    dispatch(deleteTodo(id))
+    await this.todoFirestore.delete(id)
   }
 }
 

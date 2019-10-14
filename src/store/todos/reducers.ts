@@ -1,4 +1,4 @@
-import { ADD_TODO, MODIFY_TODO, REMOVE_TODO, TodoActionTypes } from './actions'
+import { ADD_TODO, MODIFY_TODO, DELETE_TODO, TodoActionTypes } from './actions'
 import { Todo } from './types'
 
 // slighty odd Todo, but it allows O(1) mutations
@@ -46,7 +46,7 @@ export function todoReducer(
       }
     }
 
-    case REMOVE_TODO: {
+    case DELETE_TODO: {
       const id = action.payload.id
       const newGetId = {...getId}
       delete newGetId[id]

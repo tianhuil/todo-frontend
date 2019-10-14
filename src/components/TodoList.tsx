@@ -37,7 +37,7 @@ const TodoListItem = memo((props: ITodoProps) => {
     <ListItemSecondaryAction>
       <IconButton
         arial-label='Delete Todo'
-        onClick={() => todoHandler.remove(dispatch,  props.id)}
+        onClick={() => todoHandler.delete(dispatch,  props.id)}
       >
         <DeleteOutlined />
       </IconButton>
