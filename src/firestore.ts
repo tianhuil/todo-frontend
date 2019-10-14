@@ -1,5 +1,5 @@
-import { Todo } from "../store/todos/types"
-import { PartialTodo, Id } from "../store";
+import { Todo } from "./store/todos/types"
+import { PartialTodo, Id } from "./store";
 import * as firebase from "firebase/app"
 // Required for side-effects -- sad
 // See https://firebase.google.com/docs/firestore/quickstart
