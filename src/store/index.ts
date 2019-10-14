@@ -5,6 +5,7 @@ import { combineReducers, createStore, applyMiddleware } from 'redux'
 import { useSelector } from 'react-redux'
 import { routerMiddleware } from 'connected-react-router'
 import { composeWithDevTools } from 'redux-devtools-extension'
+import thunkMiddleware from 'redux-thunk'
 import { Status } from './utils'
 import { routerReducer, history, statusSelector, querySelector , filterPush } from './filter'
 
@@ -17,6 +18,7 @@ export const store = createStore(
   reducer,
   composeWithDevTools(
     applyMiddleware(
+      thunkMiddleware,
       routerMiddleware(history)
     )
   )
