@@ -21,10 +21,12 @@ export class TodoFirestore {
     this.todoCollection = this.db.collection('todo')
   }
 
-  subscribeChanges(callback: (change: firebase.firestore.DocumentChange) => void) {
+  subscribeChanges(
+    callback: (change: firebase.firestore.DocumentChange) => void
+  ): () => void {
     if (!this.db) throw new Error('Need to initialize db')
 
-    this.db.collection("todo").onSnapshot(snap => {
+    return this.db.collection("todo").onSnapshot(snap => {
       snap.docChanges().forEach(callback)
     })
   }
