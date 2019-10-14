@@ -8,8 +8,6 @@ export const REMOVE_TODO = 'REMOVE_TODO'
 
 export const addTodo = (todo: Todo) => action(ADD_TODO, todo)
 
-export const newTodo = (text: string) => addTodo({id: cuid(), text, completed: false})
-
 export const modifyTodo = (todoPartial: PartialTodo) => action(MODIFY_TODO, todoPartial)
 
 export const removeTodo = (id: Id) => action(REMOVE_TODO, { id })
@@ -17,3 +15,6 @@ export const removeTodo = (id: Id) => action(REMOVE_TODO, { id })
 export type TodoActionTypes = ReturnType<typeof addTodo>
                             | ReturnType<typeof modifyTodo>
                             | ReturnType<typeof removeTodo>
+
+// this action is just a helper function
+export const newTodo = (text: string) => addTodo({id: cuid(), text, completed: false})
