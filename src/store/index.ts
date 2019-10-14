@@ -1,13 +1,12 @@
 import { addTodo, removeTodo, modifyTodo, newTodo } from './todos/actions'
 import { todoReducer, } from './todos/reducers'
-import { Id, Todo } from './todos/types'
-import { combineReducers, createStore, applyMiddleware, Dispatch } from 'redux'
+import { Id } from './todos/types'
+import { combineReducers, createStore, applyMiddleware } from 'redux'
 import { useSelector } from 'react-redux'
 import { routerMiddleware } from 'connected-react-router'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import { Status } from './utils'
 import { routerReducer, history, statusSelector, querySelector , filterPush } from './filter'
-import { initializeFirestore } from '../firestore'
 
 const reducer = combineReducers({
   todo: todoReducer,
