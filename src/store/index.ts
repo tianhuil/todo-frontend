@@ -1,6 +1,6 @@
-import { addTodo, removeTodo, modifyTodo, newTodo } from './todos/actions'
 import { todoReducer, } from './todos/reducers'
-import { Id } from './todos/types'
+import { TodoHandler, } from './todos/handler'
+import { Id, Todo, PartialTodo } from './todos/types'
 import { combineReducers, createStore, applyMiddleware } from 'redux'
 import { useSelector } from 'react-redux'
 import { routerMiddleware } from 'connected-react-router'
@@ -41,6 +41,8 @@ export function stateQuerySelector(state: State): string {
   return querySelector(state.router)
 }
 
-export { addTodo, removeTodo, modifyTodo, newTodo, Status, history, filterPush }
+export { Status, history, filterPush, TodoHandler }
 
 export type Id = Id
+export type Todo = Todo
+export type PartialTodo = PartialTodo

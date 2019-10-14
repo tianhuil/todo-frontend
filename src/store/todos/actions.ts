@@ -1,6 +1,5 @@
 import { action } from '../utils'
 import { Id, Todo, PartialTodo } from './types'
-import cuid from 'cuid'
 
 export const ADD_TODO = 'ADD_TODO'
 export const MODIFY_TODO = 'MODIFY_TODO'
@@ -16,5 +15,3 @@ export type TodoActionTypes = ReturnType<typeof addTodo>
                             | ReturnType<typeof modifyTodo>
                             | ReturnType<typeof removeTodo>
 
-// this action is just a helper function
-export const newTodo = (text: string) => addTodo({id: cuid(), text, completed: false})

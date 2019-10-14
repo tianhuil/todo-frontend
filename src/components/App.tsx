@@ -6,7 +6,7 @@ import { Redirect, Route, Switch } from 'react-router'
 import { Status } from '../store/utils';
 import { ConnectedRouter } from 'connected-react-router';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import { DataLoader } from './DataLoader';
+import { DataHandler } from './DataHandler';
 
 
 const App = memo(() => {
@@ -14,7 +14,7 @@ const App = memo(() => {
     <MuiThemeProvider theme={createMuiTheme()}>
       <Provider store={store}>
         <ConnectedRouter history={history}>
-          <DataLoader>
+          <DataHandler>
             <Switch>
               <Route exact path={Status.All}>
                 <Layout/>
@@ -27,7 +27,7 @@ const App = memo(() => {
               </Route>
               <Redirect to={Status.All} />
             </Switch>
-          </DataLoader>
+          </DataHandler>
         </ConnectedRouter>
       </Provider>
     </MuiThemeProvider>

@@ -1,4 +1,5 @@
 import { Todo } from "../store/todos/types"
+import { PartialTodo, Id } from "../store";
 import * as firebase from "firebase/app"
 // Required for side-effects -- sad
 // See https://firebase.google.com/docs/firestore/quickstart
@@ -6,10 +7,10 @@ require("firebase/firestore");
 
 
 export class TodoFirestore {
-  db: firebase.firestore.Firestore | null = null
-  todoCollection: firebase.firestore.CollectionReference | null = null
+  db: firebase.firestore.Firestore
+  todoCollection: firebase.firestore.CollectionReference
 
-  initialize() {
+  constructor() {
     if (!firebase.apps.length) {
       const firebaseConfig = {
         projectId: process.env['REACT_APP_FIREBASE_ID']
@@ -24,16 +25,20 @@ export class TodoFirestore {
   subscribeChanges(
     callback: (change: firebase.firestore.DocumentChange) => void
   ): () => void {
-    if (!this.db) throw new Error('Need to initialize db')
-
     return this.db.collection("todo").onSnapshot(snap => {
       snap.docChanges().forEach(callback)
     })
   }
 
   async create(todo: Todo) {
-    if (!this.todoCollection) throw new Error('Need to initialize db')
+    await this.todoCollection.doc(todo.id).set(todo)
+  }
 
-    return this.todoCollection.doc(todo.id).set(todo)
+  async modify(partialTodo: PartialTodo) {
+    await this.todoCollection.doc(partialTodo.id).update(partialTodo)
+  }
+
+  async remove(id: Id) {
+    await this.todoCollection.doc(id).delete()
   }
 }

@@ -3,7 +3,6 @@ import cuid from 'cuid'
 
 async function main() {
   const todoFirestore = new TodoFirestore()
-  todoFirestore.initialize()
 
   const data = [
     { id: cuid(), text: 'Lorem ipsum dolor sit amet consectetur adipisicing elit.', completed: false },
