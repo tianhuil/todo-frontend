@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { TodoFirestore } from "../firestore";
-import { addTodo } from "../store";
-import { Todo } from "../store/todos/types";
+import { addTodo, modifyTodo, removeTodo } from "../store";
+import { Todo, PartialTodo } from "../store/todos/types";
 
 
 
@@ -19,12 +19,12 @@ export const DataLoader = (props: React.PropsWithChildren<{}>) => {
             dispatch(addTodo(change.doc.data() as Todo))
             break
           }
-          case 'removed': {
-            console.error('Not Handled')
+          case 'modified': {
+            dispatch(modifyTodo(change.doc.data() as PartialTodo))
             break
           }
-          case 'modified': {
-            console.error('Not Handled')
+          case 'removed': {
+            dispatch(removeTodo((change.doc.data() as Todo).id))
             break
           }
         }
