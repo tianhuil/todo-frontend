@@ -1,4 +1,4 @@
-import { Todo } from "./store/todos/types"
+import { Todo } from "./store/todos/type"
 import { PartialTodo, Id } from "./store";
 import * as firebase from "firebase/app"
 // Required for side-effects -- sad
@@ -13,7 +13,8 @@ export class TodoFirestore {
   constructor() {
     if (!firebase.apps.length) {
       const firebaseConfig = {
-        projectId: process.env['REACT_APP_FIREBASE_ID']
+        projectId: process.env['REACT_APP_FIREBASE_ID'],
+        apiKey: process.env['REACT_APP_FIREBASE_API_KEY']
       }
 
       firebase.initializeApp(firebaseConfig);

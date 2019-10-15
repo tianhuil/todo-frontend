@@ -7,6 +7,7 @@ import { Status } from '../store/utils';
 import { ConnectedRouter } from 'connected-react-router';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { DataHandler } from './DataHandler';
+import { LoginRequired } from './LoginRequired';
 
 
 const App = memo(() => {
@@ -15,18 +16,20 @@ const App = memo(() => {
       <Provider store={store}>
         <ConnectedRouter history={history}>
           <DataHandler>
-            <Switch>
-              <Route exact path={Status.All}>
-                <Layout/>
-              </Route>
-              <Route exact path={Status.Completed}>
-                <Layout/>
-              </Route>
-              <Route exact path={Status.Incompleted}>
-                <Layout/>
-              </Route>
-              <Redirect to={Status.All} />
-            </Switch>
+            <LoginRequired>
+              <Switch>
+                <Route exact path={Status.All}>
+                  <Layout/>
+                </Route>
+                <Route exact path={Status.Completed}>
+                  <Layout/>
+                </Route>
+                <Route exact path={Status.Incompleted}>
+                  <Layout/>
+                </Route>
+                <Redirect to={Status.All} />
+              </Switch>
+            </LoginRequired>
           </DataHandler>
         </ConnectedRouter>
       </Provider>

@@ -8,10 +8,13 @@ import { composeWithDevTools } from 'redux-devtools-extension'
 import thunkMiddleware from 'redux-thunk'
 import { Status } from './utils'
 import { routerReducer, history, statusSelector, querySelector , filterPush } from './filter'
+import { userReducer, UserState } from './user/reducer'
+import { userAuthStateChange } from './user/handler'
 
 const reducer = combineReducers({
   todo: todoReducer,
   router: routerReducer,
+  user: userReducer,
 })
 
 export const store = createStore(
@@ -41,7 +44,11 @@ export function stateQuerySelector(state: State): string {
   return querySelector(state.router)
 }
 
-export { Status, history, filterPush, TodoHandler }
+export function userSelector(state: State): UserState {
+  return state.user
+}
+
+export { Status, history, filterPush, TodoHandler, userAuthStateChange }
 
 export type Id = Id
 export type Todo = Todo
