@@ -33,7 +33,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "seed": "TS_NODE_COMPILER_OPTIONS='{\"module\":\"commonjs\"}' ts-node -r dotenv/config -T src/batch/seedFirestore.ts"
+    "seed": "TS_NODE_COMPILER_OPTIONS='{\"module\":\"commonjs\"}' ts-node -r dotenv/config -T src/batch/seedFirestore.ts",
+    "serve": "firebase serve",
+    "deploy": "firebase deploy"
   },
   "eslintConfig": {
     "extends": "react-app"
