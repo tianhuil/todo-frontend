@@ -1,5 +1,5 @@
 import { action } from '../utils'
-import { Id, Todo, PartialTodo } from './types'
+import { Id, Todo, PartialTodo } from './type'
 
 export const ADD_TODO = 'ADD_TODO'
 export const MODIFY_TODO = 'MODIFY_TODO'

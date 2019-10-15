@@ -1,6 +1,6 @@
-import { todoReducer, } from './todos/reducers'
+import { todoReducer, } from './todos/reducer'
 import { TodoHandler, } from './todos/handler'
-import { Id, Todo, PartialTodo } from './todos/types'
+import { Id, Todo, PartialTodo } from './todos/type'
 import { combineReducers, createStore, applyMiddleware } from 'redux'
 import { useSelector } from 'react-redux'
 import { routerMiddleware } from 'connected-react-router'

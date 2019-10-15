@@ -1,6 +1,6 @@
 import { TodoFirestore } from "../../firestore";
-import { addTodo, modifyTodo, deleteTodo } from "./actions";
-import { Todo, PartialTodo, Id } from "./types";
+import { addTodo, modifyTodo, deleteTodo } from "./action";
+import { Todo, PartialTodo, Id } from "./type";
 import { Dispatch } from "redux";
 import cuid from 'cuid'
 
