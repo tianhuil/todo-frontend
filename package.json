@@ -3,18 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@material-ui/core": "^4.5.0",
-    "@material-ui/icons": "^4.4.3",
-    "@types/history": "^4.7.3",
-    "@types/jest": "24.0.18",
-    "@types/node": "12.7.12",
-    "@types/react": "16.9.5",
-    "@types/react-dom": "16.9.1",
-    "@types/react-redux": "^7.1.4",
-    "@types/react-router": "^5.1.1",
     "connected-react-router": "^6.5.2",
     "cuid": "^2.1.6",
-    "dot-env": "^0.0.1",
     "firebase": "^7.2.0",
     "history": "^4.10.1",
     "react": "^16.10.2",
@@ -24,9 +14,7 @@
     "react-scripts": "3.2.0",
     "redux-devtools": "^3.5.0",
     "redux-devtools-extension": "^2.13.8",
-    "redux-thunk": "^2.3.0",
-    "ts-node": "^8.4.1",
-    "typescript": "3.6.3"
+    "redux-thunk": "^2.3.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -51,5 +39,20 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@material-ui/core": "^4.5.0",
+    "@material-ui/icons": "^4.4.3",
+    "@types/history": "^4.7.3",
+    "@types/jest": "24.0.18",
+    "@types/node": "12.7.12",
+    "@types/react": "16.9.5",
+    "@types/react-dom": "16.9.1",
+    "@types/react-redux": "^7.1.4",
+    "@types/react-router": "^5.1.1",
+    "dot-env": "^0.0.1",
+    "firebase-tools": "^7.5.0",
+    "ts-node": "^8.4.1",
+    "typescript": "3.6.3"
   }
 }
