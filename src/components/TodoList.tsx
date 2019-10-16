@@ -1,49 +1,8 @@
-import React, { memo } from 'react';
+import React from 'react';
 
-import {
-  List,
-  ListItem,
-  Checkbox,
-  IconButton,
-  ListItemText,
-  ListItemSecondaryAction,
-  Paper,
-} from '@material-ui/core'
-import DeleteOutlined from '@material-ui/icons/DeleteOutlined';
-import { useReduxSelector, Status, State, Id, stateStatusSelector, stateQuerySelector } from '../store';
-import { useDispatch } from 'react-redux';
-import { useTodoHandler } from './DataHandler';
-
-interface ITodoProps {
-  id: Id
-  divider: boolean
-}
-
-const TodoListItem = memo((props: ITodoProps) => {
-  const todo = useReduxSelector(state => state.todo.getById[props.id])
-  const dispatch = useDispatch()
-  const todoHandler = useTodoHandler()
-
-  return <ListItem divider={props.divider}>
-    <Checkbox
-      onClick={() => todoHandler.modify(dispatch, {
-        id: props.id,
-        completed: !todo.data.completed,
-      })}
-      checked={todo.data.completed}
-      disableRipple
-    />
-    <ListItemText primary={todo.data.text} />
-    <ListItemSecondaryAction>
-      <IconButton
-        arial-label='Delete Todo'
-        onClick={() => todoHandler.delete(dispatch,  props.id)}
-      >
-        <DeleteOutlined />
-      </IconButton>
-    </ListItemSecondaryAction>
-  </ListItem>
-})
+import { List, Paper } from '@material-ui/core'
+import { useReduxSelector, Status, State, stateStatusSelector, stateQuerySelector } from '../store';
+import { TodoItem } from './TodoItem'
 
 function todoListSelector(state: State) {
   const status = stateStatusSelector(state)
@@ -75,7 +34,7 @@ export const TodoList = () => {
     return <Paper style={{margin: 16}}>
       <List style={{ overflow: 'scroll'}}>
         {ids.map((id, i) => (
-          <TodoListItem
+          <TodoItem
             key={`TodoItem.${id}`}
             id={id}
             divider={i !== ids.length - 1}
