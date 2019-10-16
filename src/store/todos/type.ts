@@ -1,3 +1,10 @@
+export interface Synced<T> {
+  synced: boolean
+  data: T
+}
+
+export type Id = string
+
 export interface Todo {
   id: Id,
   text: string,
@@ -5,5 +12,3 @@ export interface Todo {
 }
 
 export type PartialTodo = Pick<Todo, 'id'> & Partial<Omit<Todo, 'id'>>
-
-export type Id = string

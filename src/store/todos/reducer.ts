@@ -1,11 +1,11 @@
 import { ADD_TODO, MODIFY_TODO, DELETE_TODO, TodoActionTypes } from './action'
-import { Todo } from './type'
+import { Todo, Synced, Id } from './type'
 
 // slighty odd Todo, but it allows O(1) mutations
 export type TodoState = {
   allIds: string[],  // all ids
   getById: { // get Todo for a specific id
-    [id: string]: Todo,  // should be Id but that's not allowed
+    [id: string]: Synced<Todo>,  // should be Id but that's not allowed
   },
 }
 
@@ -21,21 +21,25 @@ export function todoReducer(
   const { allIds, getById: getId } = state
   switch (action.type) {
     case ADD_TODO: {
-      const newTodo: Todo = action.payload
+      const newTodo: Synced<Todo> = action.payload
+      const id: Id = newTodo.data.id
       return {
-        allIds: allIds.includes(newTodo.id) ? allIds : [...allIds, newTodo.id],
+        allIds: allIds.includes(id) ? allIds : [...allIds, id],
         getById: {
           ...getId,
-          [newTodo.id]: newTodo,
+          [id]: newTodo,
         }
       }
     }
 
     case MODIFY_TODO: {
-      const id = action.payload.id
-      const modifiedTodo: Todo = {
-        ...getId[id],
+      const id: Id = action.payload.data.id
+      const modifiedTodo: Synced<Todo> = {
         ...action.payload,
+        data: {
+          ...getId[id].data,
+          ...action.payload.data
+        }
       }
       return {
         ...state,
@@ -47,13 +51,23 @@ export function todoReducer(
     }
 
     case DELETE_TODO: {
-      const id = action.payload.id
+      const id: Id = action.payload.data
       const newGetId = {...getId}
-      delete newGetId[id]
-      return {
-        ...state,
-        allIds: allIds.filter((i) => i !== id),
-        getById: newGetId,
+
+      if(!action.payload.synced) {
+        // if not synced, just mark as unsynced
+        return {
+          ...state,
+          getById: newGetId,
+        }
+      } else {
+        // delete for real
+        delete newGetId[id]
+        return {
+          ...state,
+          allIds: allIds.filter((i) => i !== id),
+          getById: newGetId,
+        }
       }
     }
 

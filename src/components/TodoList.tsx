@@ -28,12 +28,12 @@ const TodoListItem = memo((props: ITodoProps) => {
     <Checkbox
       onClick={() => todoHandler.modify(dispatch, {
         id: props.id,
-        completed: !todo.completed,
+        completed: !todo.data.completed,
       })}
-      checked={todo.completed}
+      checked={todo.data.completed}
       disableRipple
     />
-    <ListItemText primary={todo.text} />
+    <ListItemText primary={todo.data.text} />
     <ListItemSecondaryAction>
       <IconButton
         arial-label='Delete Todo'
@@ -61,9 +61,9 @@ function todoListSelector(state: State) {
   }
   return state.todo.allIds.filter(
     id => {
-      const todo =state.todo.getById[id]
-      return statusFilter(todo.completed)
-        && queryFilter(todo.text)
+      const todo = state.todo.getById[id]
+      return statusFilter(todo.data.completed)
+        && queryFilter(todo.data.text)
     }
   )
 }
