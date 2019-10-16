@@ -2,9 +2,7 @@ import React from 'react'
 import { useSelector, useDispatch } from 'react-redux';
 import firebase from 'firebase';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth'
-import {
-  userAuthStateChange,
-  userSelector } from '../store';
+import { userAuthStateChange, userSelector } from '../store'
 
 
 export const LoginRequired = (props: React.PropsWithChildren<{}>) => {
