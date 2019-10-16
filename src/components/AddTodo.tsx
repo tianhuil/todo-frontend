@@ -1,12 +1,27 @@
 import React, { useRef } from 'react';
-import { TextField, Paper, Button, Grid } from '@material-ui/core';
+import { TextField, Paper, Button, Grid, makeStyles, Theme } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
 import { useTodoHandler } from './DataHandler';
+
+const useStyles = makeStyles((theme: Theme) => ({
+  paper: {
+    margin: theme.spacing(2),
+    padding: theme.spacing(2)
+  },
+  inputGrid: {
+    paddingRight: theme.spacing(2),
+  },
+  submitGrid: {
+    display: 'flex',
+    justifyContent: 'flex-end'
+  }
+}))
 
 export const AddTodo = () => {
   const inputField = useRef<HTMLInputElement>(null)
   const dispatch = useDispatch()
   const todoHandler = useTodoHandler()
+  const classes = useStyles()
 
   function submitTodo() {
     todoHandler.new(dispatch, inputField.current!.value)
@@ -22,9 +37,9 @@ export const AddTodo = () => {
     }
   }
 
-  return <Paper style={{margin: 16, padding: 16}}>
+  return <Paper className={classes.paper} >
     <Grid container>
-      <Grid xs={10} md={11} item style={{paddingRight: 16}}>
+      <Grid xs={10} md={11} item className={classes.inputGrid}>
         <TextField
           inputRef={inputField}
           placeholder='Add Todo here'
@@ -32,7 +47,7 @@ export const AddTodo = () => {
           fullWidth
         />
       </Grid>
-      <Grid xs={2} md={1} item>
+      <Grid xs={2} md={1} item className={classes.submitGrid} >
         <Button
           color='secondary'
           variant='outlined'
