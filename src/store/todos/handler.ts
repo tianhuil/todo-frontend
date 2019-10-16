@@ -40,7 +40,6 @@ export class TodoHandler {
   async create(dispatch: Dispatch, todo: Todo) {
     dispatch(addTodo({ synced: false, data: todo }))
     await this.todoFirestore.create(todo)
-    dispatch(addTodo({ synced: true, data: todo }))
   }
 
   async new(dispatch: Dispatch, text: string) {
@@ -50,12 +49,10 @@ export class TodoHandler {
   async modify(dispatch: Dispatch, partialTodo: PartialTodo) {
     dispatch(modifyTodo({ synced: false, data: partialTodo}))
     await this.todoFirestore.modify(partialTodo)
-    dispatch(modifyTodo({ synced: true, data: partialTodo}))
   }
 
   async delete(dispatch: Dispatch, id: Id) {
     dispatch(deleteTodo({synced: false, data: id}))
     await this.todoFirestore.delete(id)
-    dispatch(deleteTodo({synced: true, data: id}))
   }
 }
