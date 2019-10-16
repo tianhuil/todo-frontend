@@ -25,7 +25,8 @@
     "eject": "react-scripts eject",
     "seed": "TS_NODE_COMPILER_OPTIONS='{\"module\":\"commonjs\"}' ts-node -r dotenv/config -T src/batch/seedFirestore.ts",
     "serve": "firebase serve",
-    "deploy": "firebase deploy"
+    "deploy": "firebase deploy",
+    "deploy-firestore-rules": "firebase deploy --only firestore:rules"
   },
   "eslintConfig": {
     "extends": "react-app"
