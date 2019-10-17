@@ -1,4 +1,5 @@
 export interface Synced<T> {
+  // synced is true if the object is in sync with DB
   synced: boolean
   data: T
 }

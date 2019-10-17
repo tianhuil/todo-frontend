@@ -43,13 +43,11 @@ export class TodoHandler {
     )
   }
 
+  // these dispatch 'pre-emptive' actions before sending to database
+  // the confirmation will come through the subscription
   async create(dispatch: Dispatch, todo: Todo) {
     dispatch(addTodo({ synced: false, data: todo }))
     await this.todoFirestore.create(todo)
-  }
-
-  async new(dispatch: Dispatch, text: string) {
-    await this.create(dispatch, {id: cuid(), text, completed: false, owner: this.uid})
   }
 
   async modify(dispatch: Dispatch, partialTodo: PartialTodo) {
@@ -60,5 +58,10 @@ export class TodoHandler {
   async delete(dispatch: Dispatch, id: Id) {
     dispatch(deleteTodo({synced: false, data: id}))
     await this.todoFirestore.delete(id)
+  }
+
+  // helper function
+  async new(dispatch: Dispatch, text: string) {
+    await this.create(dispatch, {id: cuid(), text, completed: false, owner: this.uid})
   }
 }
