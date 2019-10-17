@@ -15,26 +15,26 @@ export class TodoHandler {
 
   subscribe(dispatch: Dispatch) {
     this.todoFirestore.subscribeChanges(
-      change => {
+      (change, synced) => {
         switch(change.type) {
           case 'added': {
             dispatch(addTodo({
               data: change.doc.data() as Todo,
-              synced: true
+              synced
             }))
             break
           }
           case 'modified': {
             dispatch(modifyTodo({
               data: change.doc.data() as PartialTodo,
-              synced: true
+              synced
             }))
             break
           }
           case 'removed': {
             dispatch(deleteTodo({
               data: (change.doc.data() as Todo).id,
-              synced: true
+              synced
             }))
             break
           }

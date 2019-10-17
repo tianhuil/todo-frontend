@@ -1,5 +1,5 @@
 import { PartialTodo, Todo, Id, Uid } from "./type";
-import * as firebase from "firebase/app"
+import firebase, { firestore } from "firebase/app"
 // Required for side-effects -- sad
 // See https://firebase.google.com/docs/firestore/quickstart
 require("firebase/firestore");
@@ -19,23 +19,32 @@ export function initializeFirestoreOnce() {
 }
 
 export class TodoFirestore {
-  db: firebase.firestore.Firestore
+  db: firestore.Firestore
   uid: Uid
-  todoCollection: firebase.firestore.CollectionReference
+  todoCollection: firestore.CollectionReference
 
   constructor(uid: Uid) {
-    this.db = firebase.firestore()
+    this.db = firestore()
     this.uid = uid
     this.todoCollection = this.db.collection('todo')
   }
 
   subscribeChanges(
-    callback: (change: firebase.firestore.DocumentChange) => void
+    callback: (
+      change: firestore.DocumentChange,
+      synced: boolean) => void
   ): () => void {
+    const listenOptions = { includeMetadataChanges: true }
     return this.db.collection("todo")
       .where('owner', '==', this.uid)
-      .onSnapshot(snap => {
-        snap.docChanges().forEach(callback)
+      .onSnapshot(listenOptions, snap => {
+        const { fromCache, hasPendingWrites} = snap.metadata
+        const synced = !(fromCache || hasPendingWrites)
+
+        snap.docChanges(listenOptions)
+          .forEach(
+            change => callback(change, synced)
+          )
       })
   }
 
