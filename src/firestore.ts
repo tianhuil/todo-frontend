@@ -7,12 +7,10 @@ import 'firebase/firestore'
 
 export function initializeFirestoreOnce() {
   if (!firebase.apps.length) {
-    const firebaseConfig = {
+    return firebase.initializeApp({
       projectId: process.env['REACT_APP_FIREBASE_ID'],
       apiKey: process.env['REACT_APP_FIREBASE_API_KEY']
-    }
-
-    return firebase.initializeApp(firebaseConfig)
+    })
   } else {
     return firebase.apps[0]
   }
