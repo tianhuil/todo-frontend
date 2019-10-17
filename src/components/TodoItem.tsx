@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Id } from "../store/todos/type"
+import { Id } from "../type"
 import { memo } from "react"
 import { useReduxSelector } from "../store"
 import { useDispatch } from "react-redux"

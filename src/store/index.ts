@@ -1,6 +1,5 @@
 import { todoReducer, } from './todos/reducer'
 import { TodoHandler, } from './todos/handler'
-import { Id, Todo, PartialTodo } from './todos/type'
 import { combineReducers, createStore, applyMiddleware } from 'redux'
 import { useSelector } from 'react-redux'
 import { routerMiddleware } from 'connected-react-router'
@@ -49,7 +48,3 @@ export function userSelector(state: State): UserState {
 }
 
 export { Status, history, filterPush, TodoHandler, userAuthStateChange }
-
-export type Id = Id
-export type Todo = Todo
-export type PartialTodo = PartialTodo

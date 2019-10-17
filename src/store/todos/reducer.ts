@@ -1,5 +1,5 @@
 import { ADD_TODO, MODIFY_TODO, DELETE_TODO, TodoActionTypes } from './action'
-import { Todo, Synced, Id } from './type'
+import { Todo, Synced, Id } from '../../type'
 
 // slighty odd Todo, but it allows O(1) mutations
 export type TodoState = {
