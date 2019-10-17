@@ -18,7 +18,7 @@ export function todoReducer(
   state = todoInitialState,
   action: TodoActionTypes,
 ): TodoState {
-  const { allIds, getById: getId } = state
+  const { allIds, getById } = state
   switch (action.type) {
     case ADD_TODO: {
       const newTodo: Synced<Todo> = action.payload
@@ -26,7 +26,7 @@ export function todoReducer(
       return {
         allIds: allIds.includes(id) ? allIds : [...allIds, id],
         getById: {
-          ...getId,
+          ...getById,
           [id]: newTodo,
         }
       }
@@ -37,14 +37,14 @@ export function todoReducer(
       const modifiedTodo: Synced<Todo> = {
         ...action.payload,
         data: {
-          ...getId[id].data,
+          ...getById[id].data,
           ...action.payload.data
         }
       }
       return {
         ...state,
         getById: {
-          ...getId,
+          ...getById,
           [id]: modifiedTodo,
         },
       }
@@ -52,21 +52,21 @@ export function todoReducer(
 
     case DELETE_TODO: {
       const id: Id = action.payload.data
-      const newGetId = {...getId}
+      const newGetById = {...getById}
 
       if(!action.payload.synced) {
         // if not synced, just mark as unsynced
+        newGetById[id].synced = false
         return {
           ...state,
-          getById: newGetId,
+          getById: newGetById,
         }
       } else {
         // delete for real
-        delete newGetId[id]
+        delete newGetById[id]
         return {
-          ...state,
           allIds: allIds.filter((i) => i !== id),
-          getById: newGetId,
+          getById: newGetById,
         }
       }
     }
