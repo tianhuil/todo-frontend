@@ -19,7 +19,8 @@
     "redux-thunk": "^2.3.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "dev-local": "REACT_APP_FIREBASE_LOCALHOST=localhost:3001 react-scripts start",
+    "dev-production": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
@@ -27,7 +28,7 @@
     "serve": "firebase serve",
     "deploy": "firebase deploy",
     "deploy-firestore": "firebase deploy --only firestore",
-    "emulate-firestore": "firebase emulators:start --only firestore"
+    "firestore-local": "firebase emulators:start --only firestore"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -45,6 +46,7 @@
     ]
   },
   "devDependencies": {
+    "@firebase/testing": "^0.14.1",
     "@material-ui/core": "^4.5.0",
     "@material-ui/icons": "^4.4.3",
     "@types/history": "^4.7.3",

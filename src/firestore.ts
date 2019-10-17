@@ -7,10 +7,20 @@ import 'firebase/firestore'
 
 export function initializeFirestoreOnce() {
   if (!firebase.apps.length) {
-    return firebase.initializeApp({
+    const app = firebase.initializeApp({
       projectId: process.env['REACT_APP_FIREBASE_ID'],
       apiKey: process.env['REACT_APP_FIREBASE_API_KEY']
     })
+
+    const host = process.env['REACT_APP_FIREBASE_LOCALHOST']
+    if (host) {
+      firestore().settings({
+        host: host,
+        ssl: false,
+      })
+    }
+
+    return app
   } else {
     return firebase.apps[0]
   }
