@@ -5,7 +5,13 @@ import { Dispatch } from "redux";
 import cuid from 'cuid'
 
 export class TodoHandler {
-  todoFirestore: TodoFirestore = new TodoFirestore()
+  uid: Uid
+  todoFirestore: TodoFirestore
+
+  constructor(uid: Uid) {
+    this.uid = uid
+    this.todoFirestore = new TodoFirestore(uid)
+  }
 
   subscribe(dispatch: Dispatch) {
     this.todoFirestore.subscribeChanges(
@@ -42,8 +48,8 @@ export class TodoHandler {
     await this.todoFirestore.create(todo)
   }
 
-  async new(dispatch: Dispatch, text: string, owner: Uid) {
-    await this.create(dispatch, {id: cuid(), text, completed: false, owner})
+  async new(dispatch: Dispatch, text: string) {
+    await this.create(dispatch, {id: cuid(), text, completed: false, owner: this.uid})
   }
 
   async modify(dispatch: Dispatch, partialTodo: PartialTodo) {

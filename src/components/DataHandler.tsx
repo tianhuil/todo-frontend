@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
-import { useDispatch } from "react-redux";
-import { TodoHandler } from "../store";
+import { useDispatch, useSelector } from "react-redux";
+import { TodoHandler, validUserSelector } from "../store";
 
 export const TodoHandlerContext = React.createContext<TodoHandler | null>(null)
 
@@ -12,7 +12,8 @@ export function useTodoHandler(): TodoHandler {
 
 export const DataHandler = (props: React.PropsWithChildren<{}>) => {
   const dispatch = useDispatch()
-  const todoHandler = new TodoHandler()
+  const { uid } = useSelector(validUserSelector)
+  const todoHandler = new TodoHandler(uid)
 
   React.useEffect(() => todoHandler.subscribe(dispatch))
 

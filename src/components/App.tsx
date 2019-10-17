@@ -15,8 +15,8 @@ const App = memo(() => {
     <MuiThemeProvider theme={createMuiTheme()}>
       <Provider store={store}>
         <ConnectedRouter history={history}>
-          <DataHandler>
-            <LoginRequired>
+          <LoginRequired>
+            <DataHandler>
               <Switch>
                 <Route exact path={Status.All}>
                   <Layout/>
@@ -29,8 +29,8 @@ const App = memo(() => {
                 </Route>
                 <Redirect to={Status.All} />
               </Switch>
-            </LoginRequired>
-          </DataHandler>
+            </DataHandler>
+          </LoginRequired>
         </ConnectedRouter>
       </Provider>
     </MuiThemeProvider>
