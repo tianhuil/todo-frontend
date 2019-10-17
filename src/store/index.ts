@@ -9,6 +9,7 @@ import { Status } from './utils'
 import { routerReducer, history, statusSelector, querySelector , filterPush } from './filter'
 import { userReducer, UserState } from './user/reducer'
 import { userAuthStateChange } from './user/handler'
+import { User } from 'firebase'
 
 const reducer = combineReducers({
   todo: todoReducer,
@@ -44,6 +45,11 @@ export function stateQuerySelector(state: State): string {
 }
 
 export function userSelector(state: State): UserState {
+  return state.user
+}
+
+export function validUserSelector(state: State): User {
+  if (!state.user) throw new Error('User must be logged in!')
   return state.user
 }
 

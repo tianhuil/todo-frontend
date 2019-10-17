@@ -1,7 +1,8 @@
 import React, { useRef } from 'react';
 import { TextField, Paper, Button, Grid, makeStyles, Theme } from '@material-ui/core';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTodoHandler } from './DataHandler';
+import { validUserSelector } from '../store';
 
 const useStyles = makeStyles((theme: Theme) => ({
   paper: {
@@ -19,12 +20,13 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 export const AddTodo = () => {
   const inputField = useRef<HTMLInputElement>(null)
+  const user = useSelector(validUserSelector)
   const dispatch = useDispatch()
   const todoHandler = useTodoHandler()
   const classes = useStyles()
 
   function submitTodo() {
-    todoHandler.new(dispatch, inputField.current!.value)
+    todoHandler.new(dispatch, inputField.current!.value, user.uid)
     inputField.current!.value = ''
   }
 

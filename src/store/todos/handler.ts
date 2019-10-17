@@ -1,6 +1,6 @@
 import { TodoFirestore } from "../../firestore";
 import { addTodo, modifyTodo, deleteTodo } from "./action";
-import { Todo, PartialTodo, Id } from "../../type";
+import { Todo, PartialTodo, Id, Uid } from "../../type";
 import { Dispatch } from "redux";
 import cuid from 'cuid'
 
@@ -42,8 +42,8 @@ export class TodoHandler {
     await this.todoFirestore.create(todo)
   }
 
-  async new(dispatch: Dispatch, text: string) {
-    await this.create(dispatch, {id: cuid(), text, completed: false})
+  async new(dispatch: Dispatch, text: string, owner: Uid) {
+    await this.create(dispatch, {id: cuid(), text, completed: false, owner})
   }
 
   async modify(dispatch: Dispatch, partialTodo: PartialTodo) {
