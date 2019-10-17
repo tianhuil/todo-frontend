@@ -8,9 +8,12 @@ import { ConnectedRouter } from 'connected-react-router';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { DataHandler } from './DataHandler';
 import { LoginRequired } from './LoginRequired';
+import { initializeFirestoreOnce } from '../firestore';
 
 
 const App = memo(() => {
+  initializeFirestoreOnce()
+
   return (
     <MuiThemeProvider theme={createMuiTheme()}>
       <Provider store={store}>
