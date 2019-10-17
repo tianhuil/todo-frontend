@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux"
 import { useTodoHandler } from "./DataHandler"
 import { ListItem, Checkbox, ListItemText, ListItemSecondaryAction, IconButton, Theme, makeStyles } from "@material-ui/core"
 import DeleteOutlined from '@material-ui/icons/DeleteOutlined'
+import Sync from '@material-ui/icons/Sync'
 
 const useStyles = makeStyles((theme: Theme) => ({
   checkbox: {
@@ -46,6 +47,7 @@ export const TodoItem = memo((props: ITodoProps) => {
         arial-label='Delete Todo'
         onClick={() => todoHandler.delete(dispatch,  props.id)}
       >
+        { (!todo.synced) ? <Sync/> : null }
         <DeleteOutlined />
       </IconButton>
     </ListItemSecondaryAction>
