@@ -8,7 +8,6 @@ export function userReducer(
   state: UserState = userInitialState,
   action: UserActionTypes,
 ): UserState {
-  console.log('userReducer')
   switch (action.type) {
     case SIGN_IN: return action.payload
     case SIGN_OUT: return null
