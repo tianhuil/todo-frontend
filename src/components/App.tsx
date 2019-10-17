@@ -6,7 +6,7 @@ import { Redirect, Route, Switch } from 'react-router'
 import { Status } from '../store/utils';
 import { ConnectedRouter } from 'connected-react-router';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import { DataHandler } from './DataHandler';
+import { Firestore } from './Firestore';
 import { LoginRequired } from './LoginRequired';
 import { initializeFirestoreOnce } from '../firestore';
 
@@ -19,7 +19,7 @@ const App = memo(() => {
       <Provider store={store}>
         <ConnectedRouter history={history}>
           <LoginRequired>
-            <DataHandler>
+            <Firestore>
               <Switch>
                 <Route exact path={Status.All}>
                   <Layout/>
@@ -32,7 +32,7 @@ const App = memo(() => {
                 </Route>
                 <Redirect to={Status.All} />
               </Switch>
-            </DataHandler>
+            </Firestore>
           </LoginRequired>
         </ConnectedRouter>
       </Provider>

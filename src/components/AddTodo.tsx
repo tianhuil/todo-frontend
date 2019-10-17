@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { TextField, Paper, Button, Grid, makeStyles, Theme } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
-import { useTodoHandler } from './DataHandler';
+import { useTodoHandler } from './Firestore';
 
 const useStyles = makeStyles((theme: Theme) => ({
   paper: {

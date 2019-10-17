@@ -4,7 +4,7 @@ import { Id } from "../type"
 import { memo } from "react"
 import { useReduxSelector } from "../store"
 import { useDispatch } from "react-redux"
-import { useTodoHandler } from "./DataHandler"
+import { useTodoHandler } from "./Firestore"
 import { ListItem, Checkbox, ListItemText, ListItemSecondaryAction, IconButton, Theme, makeStyles } from "@material-ui/core"
 import DeleteOutlined from '@material-ui/icons/DeleteOutlined'
 import Sync from '@material-ui/icons/Sync'
