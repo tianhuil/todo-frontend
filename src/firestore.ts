@@ -1,8 +1,8 @@
 import { PartialTodo, Todo, Id, Uid } from "./type";
 import firebase, { firestore } from "firebase/app"
-// Required for side-effects -- sad
+// Next import required for side-effects (sigh)
 // See https://firebase.google.com/docs/firestore/quickstart
-require("firebase/firestore");
+import 'firebase/firestore'
 
 
 export function initializeFirestoreOnce() {
