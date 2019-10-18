@@ -80,7 +80,7 @@ test("Not allowed to query general todos or another's todos", async () => {
   )
 })
 
-test("Not allowed to read anoterh's todo by id", async() => {
+test("Not allowed to get anoterh's todo by id", async() => {
   const id = cuid()
   await aliceApp.create({id, text: 'Todo', owner: 'alice', completed: false })
   firebase.assertFails(bobApp.todoCollection.doc(id).get())
