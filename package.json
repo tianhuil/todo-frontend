@@ -20,7 +20,7 @@
   },
   "scripts": {
     "dev-local": "REACT_APP_FIREBASE_LOCALHOST=localhost:3001 react-scripts start",
-    "dev-production": "react-scripts start",
+    "dev-prod": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
@@ -28,7 +28,8 @@
     "serve": "firebase serve",
     "deploy": "firebase deploy",
     "deploy-firestore": "firebase deploy --only firestore",
-    "firestore-local": "firebase emulators:start --only firestore"
+    "firestore-local": "firebase emulators:start --only firestore",
+    "test-firestore": "jest src/*.ts --watchAll"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -58,6 +59,8 @@
     "@types/react-router": "^5.1.1",
     "dot-env": "^0.0.1",
     "firebase-tools": "^7.5.0",
+    "jest": "^24.9.0",
+    "ts-jest": "^24.1.0",
     "ts-node": "^8.4.1",
     "typescript": "3.6.3"
   }

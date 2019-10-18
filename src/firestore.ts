@@ -1,5 +1,5 @@
 import { PartialTodo, Todo, Id, Uid } from "./type";
-import firebase, { firestore } from "firebase/app"
+import firebase, {firestore} from "firebase/app"
 // Next import required for side-effects (sigh)
 // See https://firebase.google.com/docs/firestore/quickstart
 import 'firebase/firestore'
@@ -28,11 +28,11 @@ export function initializeFirestoreOnce() {
 
 export class TodoFirestore {
   db: firestore.Firestore
-  uid: Uid
+  uid: Uid | null
   todoCollection: firestore.CollectionReference
 
-  constructor(uid: Uid) {
-    this.db = firestore()
+  constructor(uid: Uid | null, db: firestore.Firestore | null=null) {
+    this.db = db ? db : firestore()
     this.uid = uid
     this.todoCollection = this.db.collection('todo')
   }
@@ -43,17 +43,18 @@ export class TodoFirestore {
       synced: boolean) => void
   ): () => void {
     const listenOptions = { includeMetadataChanges: true }
-    return this.db.collection("todo")
-      .where('owner', '==', this.uid)
-      .onSnapshot(listenOptions, snap => {
-        const { fromCache, hasPendingWrites} = snap.metadata
-        const synced = !(fromCache || hasPendingWrites)
+    const query = (this.uid ?
+      this.db.collection("todo").where('owner', '==', this.uid) :
+      this.db.collection("todo"))
+    return query.onSnapshot(listenOptions, snap => {
+      const { fromCache, hasPendingWrites} = snap.metadata
+      const synced = !(fromCache || hasPendingWrites)
 
-        snap.docChanges(listenOptions)
-          .forEach(
-            change => callback(change, synced)
-          )
-      })
+      snap.docChanges(listenOptions)
+        .forEach(
+          change => callback(change, synced)
+        )
+    })
   }
 
   async create(todo: Todo) {
