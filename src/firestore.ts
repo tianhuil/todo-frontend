@@ -57,15 +57,15 @@ export class TodoFirestore {
     })
   }
 
-  async create(todo: Todo) {
+  async create(todo: Todo): Promise<void> {
     await this.todoCollection.doc(todo.id).set(todo)
   }
 
-  async modify(partialTodo: PartialTodo) {
+  async modify(partialTodo: PartialTodo): Promise<void> {
     await this.todoCollection.doc(partialTodo.id).update(partialTodo)
   }
 
-  async delete(id: Id) {
+  async delete(id: Id): Promise<void> {
     await this.todoCollection.doc(id).delete()
   }
 }
