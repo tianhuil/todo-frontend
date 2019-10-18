@@ -7,20 +7,10 @@ import 'firebase/firestore'
 
 export function initializeFirestoreOnce() {
   if (!firebase.apps.length) {
-    const app = firebase.initializeApp({
+    return firebase.initializeApp({
       projectId: process.env['REACT_APP_FIREBASE_ID'],
       apiKey: process.env['REACT_APP_FIREBASE_API_KEY']
     })
-
-    const host = process.env['REACT_APP_FIREBASE_LOCALHOST']
-    if (host) {
-      firestore().settings({
-        host: host,
-        ssl: false,
-      })
-    }
-
-    return app
   } else {
     return firebase.apps[0]
   }
@@ -37,16 +27,26 @@ export class TodoFirestore {
     this.todoCollection = this.db.collection('todo')
   }
 
+  protected todos(): firestore.Query {
+    if (this.uid) {
+      return this.todoCollection.where('owner', '==', this.uid)
+    } else {
+      return this.todoCollection
+    }
+  }
+
+  async query(): Promise<firestore.QuerySnapshot> {
+    return this.todos().get()
+  }
+
   subscribeChanges(
     callback: (
       change: firestore.DocumentChange,
       synced: boolean) => void
   ): () => void {
     const listenOptions = { includeMetadataChanges: true }
-    const query = (this.uid ?
-      this.db.collection("todo").where('owner', '==', this.uid) :
-      this.db.collection("todo"))
-    return query.onSnapshot(listenOptions, snap => {
+
+    return this.todos().onSnapshot(listenOptions, snap => {
       const { fromCache, hasPendingWrites} = snap.metadata
       const synced = !(fromCache || hasPendingWrites)
 
