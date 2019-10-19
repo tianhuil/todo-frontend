@@ -2,10 +2,18 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     match /todo/{doc} {
-      allow read: if resource.data.owner == request.auth.uid
-      allow create: if (request.resource.data.owner == request.auth.uid) && !(exists(/databases/$(database)/documents/todo/$(doc)))
-      allow update: if (request.resource.data.owner == request.auth.uid) && (exists(/databases/$(database)/documents/todo/$(doc))) && (resource.data.owner == request.auth.uid)
-      allow delete: if (exists(/databases/$(database)/documents/todo/$(doc))) && (resource.data.owner == request.auth.uid)
+      allow read: if
+        resource.data.owner == request.auth.uid
+      allow create: if
+        (request.resource.data.owner == request.auth.uid)
+        && !(exists(/databases/$(database)/documents/todo/$(doc)))
+      allow update: if
+        (request.resource.data.owner == resource.data.owner)
+        && (exists(/databases/$(database)/documents/todo/$(doc)))
+        && (resource.data.owner == request.auth.uid)
+      allow delete: if
+        (exists(/databases/$(database)/documents/todo/$(doc)))
+        && (resource.data.owner == request.auth.uid)
     }
   }
 }
