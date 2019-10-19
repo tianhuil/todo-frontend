@@ -6,7 +6,6 @@ service cloud.firestore {
         resource.data.owner == request.auth.uid
       allow create: if
         (request.resource.data.owner == request.auth.uid)
-        && !(exists(/databases/$(database)/documents/todo/$(doc)))
       allow update: if
         (request.resource.data.owner == resource.data.owner)
         && (exists(/databases/$(database)/documents/todo/$(doc)))

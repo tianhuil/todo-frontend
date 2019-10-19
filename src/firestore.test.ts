@@ -107,6 +107,17 @@ describe('CRUD Operations', () => {
     const deletedTodos = extractTodos(await aliceFS.query())
     expect(deletedTodos).toHaveLength(0)
   })
+
+  itWithFS("Allowed to create over", async ({aliceFS, bobFS}) => {
+    const id = cuid()
+    await aliceFS.create({id, text: 'Todo', owner: 'alice', completed: false })
+    await aliceFS.create({id, text: 'New Todo', owner: 'alice', completed: false })
+
+    const modifiedTodos = extractTodos(await aliceFS.query())
+    expect(modifiedTodos).toHaveLength(1)
+    expect(modifiedTodos[0].text).toBe('New Todo')
+    expect(modifiedTodos[0].id).toBe(id)
+  })
 })
 
 
@@ -173,7 +184,7 @@ describe('Update Operations', () => {
 
   itWithFS("Not allowed to update non-existing todo", async ({aliceFS}) => {
     await expect(
-      aliceFS.update({id: cuid(), text: 'Todo', owner: 'alice', completed: false })
+      aliceFS.update({id: cuid(), text: 'Todo', owner: 'alice' })
     ).rejects.toBeInstanceOf(Error)
   })
 })
