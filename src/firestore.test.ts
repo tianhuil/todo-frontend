@@ -57,14 +57,14 @@ class FSTestbed {
     }
   }
 
-  public static testWith(
+  public static itWith(
     name: string,
     fn: (o: IFSTestbed) => Promise<void>
   ): void {
     test(name, FSTestbed.with(fn))
   }
 
-  public static testWithOnly(
+  public static itWithOnly(
     name: string,
     fn: (o: IFSTestbed) => Promise<void>
   ): void {
@@ -72,75 +72,126 @@ class FSTestbed {
   }
 }
 
-const testWithFS = FSTestbed.testWith
-const testWithFSOnly = FSTestbed.testWithOnly
+const itWithFS = FSTestbed.itWith
+const itWithFSOnly = FSTestbed.itWithOnly
+
 
 beforeAll(async () => {
   expect(process.env['FIRESTORE_EMULATOR_HOST']).toBeTruthy()
 })
 
-function extractTodos(snap: firestore.QuerySnapshot): Todo[] {
-  return snap.docs.map(doc => doc.data() as Todo)
-}
-
-testWithFS('Allowed to perform crud on own todo', async ({aliceFS}) => {
-  const id = cuid()
-  await aliceFS.create({id, text: 'Todo', owner: 'alice', completed: false })
-  const newTodos = extractTodos(await aliceFS.query())
-  expect(newTodos).toHaveLength(1)
-  expect(newTodos[0].text).toBe('Todo')
-
-  await aliceFS.update({id, text: 'New Todo'})
-  const modifiedTodos = extractTodos(await aliceFS.query())
-  expect(modifiedTodos).toHaveLength(1)
-  expect(modifiedTodos[0].text).toBe('New Todo')
-  expect(modifiedTodos[0].id).toBe(id)
-
-  await aliceFS.delete(id)
-  const deletedTodos = extractTodos(await aliceFS.query())
-  expect(deletedTodos).toHaveLength(0)
-})
-
-testWithFS("Not allowed to query general todos or another's todos", async ({aliceFS}) => {
-  await expect(
-    aliceFS.todoCollection
-      .doc()
-      .get()
-  ).rejects.toBeInstanceOf(Error)
-
-  await expect(
-    aliceFS.todoCollection
-      .where('owner', '==', 'bob')
-      .get()
-  ).rejects.toBeInstanceOf(Error)
-})
-
-testWithFS("Not allowed to get another's todo by id", async({aliceFS, bobFS}) => {
-  const id = cuid()
-  await aliceFS.create({id, text: 'Todo', owner: 'alice', completed: false })
-  await expect(bobFS.todoCollection.doc(id).get()).rejects.toBeInstanceOf(Error)
-})
-
-testWithFS("Not allowed to create over another's todos", async ({aliceFS, bobFS, projectId}) => {
-  console.log(projectId)
-  const id = cuid()
-  await aliceFS.create({id, text: 'Todo', owner: 'alice', completed: false })
-
-  await expect(
-    bobFS.create({id, text: 'Todo', owner: 'bob', completed: false })
-  ).rejects.toBeInstanceOf(Error)
-
-  await expect(
-    bobFS.create({id, text: 'Todo', owner: 'alice', completed: false })
-  ).rejects.toBeInstanceOf(Error)
-})
-
-testWithFS("Not allowed to create another's todos", async ({aliceFS}) => {
-  await expect(
-    aliceFS.create({id: cuid(), text: 'Todo', owner: 'bob', completed: false })
-  ).rejects.toBeInstanceOf(Error)
-})
-
 afterAll(() => {
   Promise.all(firebase.apps().map(app => app.delete()))
+})
+
+
+describe('CRUD Operations', () => {
+  function extractTodos(snap: firestore.QuerySnapshot): Todo[] {
+    return snap.docs.map(doc => doc.data() as Todo)
+  }
+
+  itWithFS('Allowed to perform CRUD on own todo', async ({aliceFS}) => {
+    const id = cuid()
+    await aliceFS.create({id, text: 'Todo', owner: 'alice', completed: false })
+    const newTodos = extractTodos(await aliceFS.query())
+    expect(newTodos).toHaveLength(1)
+    expect(newTodos[0].text).toBe('Todo')
+
+    await aliceFS.update({id, text: 'New Todo'})
+    const modifiedTodos = extractTodos(await aliceFS.query())
+    expect(modifiedTodos).toHaveLength(1)
+    expect(modifiedTodos[0].text).toBe('New Todo')
+    expect(modifiedTodos[0].id).toBe(id)
+
+    await aliceFS.delete(id)
+    const deletedTodos = extractTodos(await aliceFS.query())
+    expect(deletedTodos).toHaveLength(0)
+  })
+})
+
+
+describe('Read Operations', () => {
+  itWithFS("Not allowed to query general todos", async ({aliceFS}) => {
+    await expect(
+      aliceFS.todoCollection
+        .doc()
+        .get()
+    ).rejects.toBeInstanceOf(Error)
+  })
+
+  itWithFS("Not allowed to query another's todos", async ({aliceFS}) => {
+    await expect(
+      aliceFS.todoCollection
+        .where('owner', '==', 'bob')
+        .get()
+    ).rejects.toBeInstanceOf(Error)
+  })
+
+  itWithFS("Not allowed to get another's todo by id", async({aliceFS, bobFS}) => {
+    const id = cuid()
+    await aliceFS.create({id, text: 'Todo', owner: 'alice', completed: false })
+    await expect(bobFS.todoCollection.doc(id).get()).rejects.toBeInstanceOf(Error)
+  })
+})
+
+
+describe('Create Operations', () => {
+  itWithFS("Not allowed to create over another's todos", async ({aliceFS, bobFS}) => {
+    const id = cuid()
+    await aliceFS.create({id, text: 'Todo', owner: 'alice', completed: false })
+
+    await expect(
+      bobFS.create({id, text: 'Todo', owner: 'bob', completed: false })
+    ).rejects.toBeInstanceOf(Error)
+
+    await expect(
+      bobFS.create({id, text: 'Todo', owner: 'alice', completed: false })
+    ).rejects.toBeInstanceOf(Error)
+  })
+
+  itWithFS("Not allowed to create todo for another", async ({aliceFS}) => {
+    await expect(
+      aliceFS.create({id: cuid(), text: 'Todo', owner: 'bob', completed: false })
+    ).rejects.toBeInstanceOf(Error)
+  })
+})
+
+
+describe('Update Operations', () => {
+  itWithFS("Not allowed to update another's todos", async ({aliceFS, bobFS}) => {
+    const id = cuid()
+    await aliceFS.create({id, text: 'Todo', owner: 'alice', completed: false })
+
+    await expect(
+      bobFS.update({id, owner: 'bob', text: 'New Todo' })
+    ).rejects.toBeInstanceOf(Error)
+
+    await expect(
+      bobFS.update({id, owner: 'alice', text: 'New Todo' })
+    ).rejects.toBeInstanceOf(Error)
+  })
+
+  itWithFS("Not allowed to update non-existing todo", async ({aliceFS}) => {
+    await expect(
+      aliceFS.update({id: cuid(), text: 'Todo', owner: 'alice', completed: false })
+    ).rejects.toBeInstanceOf(Error)
+  })
+})
+
+
+describe('Delete Operations', () => {
+  itWithFS("Not allowed to delete another's todos", async ({aliceFS, bobFS}) => {
+    const id = cuid()
+    await aliceFS.create({id, text: 'Todo', owner: 'alice', completed: false })
+
+    await expect(
+      bobFS.delete(id)
+    ).rejects.toBeInstanceOf(Error)
+  })
+
+  itWithFS("Not allowed to delete non-existing todo", async ({aliceFS}) => {
+    await expect(
+      aliceFS.delete(cuid())
+    ).rejects.toBeInstanceOf(Error)
+  })
 })
