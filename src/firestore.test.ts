@@ -80,29 +80,28 @@ test("Not allowed to query general todos or another's todos", async () => {
   )
 })
 
-test("Not allowed to get anoterh's todo by id", async() => {
+test("Not allowed to get another's todo by id", async() => {
   const id = cuid()
   await aliceApp.create({id, text: 'Todo', owner: 'alice', completed: false })
   firebase.assertFails(bobApp.todoCollection.doc(id).get())
 })
 
-test("Not allowed to overwrite another's todos, only own", async () => {
+test("Not allowed to create over another's todos", async () => {
   const id = cuid()
   await aliceApp.create({id, text: 'Todo', owner: 'alice', completed: false })
 
-  await aliceApp.create({id, text: 'New Todo', owner: 'alice', completed: false })
-  const newTodos = extractTodos(await aliceApp.query())
-  expect(newTodos).toHaveLength(1)
-  expect(newTodos[0].text).toBe('New Todo')
-
   firebase.assertFails(
     bobApp.create({id, text: 'Todo', owner: 'bob', completed: false })
+  )
+
+  firebase.assertFails(
+    bobApp.create({id, text: 'Todo', owner: 'alice', completed: false })
   )
 })
 
 test("Not allowed to create another's todos", async () => {
   firebase.assertFails(
-    bobApp.create({id: cuid(), text: 'Todo', owner: 'alice', completed: false })
+    aliceApp.create({id: cuid(), text: 'Todo', owner: 'bob', completed: false })
   )
 })
 
