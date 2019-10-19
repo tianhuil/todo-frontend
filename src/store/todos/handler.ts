@@ -3,14 +3,15 @@ import { createTodo, updateTodo, deleteTodo } from "./action";
 import { Todo, PartialTodo, Id, Uid } from "../../type";
 import { Dispatch } from "redux";
 import cuid from 'cuid'
+import { firestore } from "firebase";
 
 export class TodoHandler {
   uid: Uid
   todoFirestore: TodoFirestore
 
-  constructor(uid: Uid) {
+  constructor(uid: Uid, db: firestore.Firestore) {
     this.uid = uid
-    this.todoFirestore = new TodoFirestore(uid)
+    this.todoFirestore = new TodoFirestore(uid, db)
   }
 
   subscribe(dispatch: Dispatch) {

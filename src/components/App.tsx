@@ -12,14 +12,14 @@ import { initializeFirestoreOnce } from '../firestore';
 
 
 const App = memo(() => {
-  initializeFirestoreOnce()
+  const app = initializeFirestoreOnce()
 
   return (
     <MuiThemeProvider theme={createMuiTheme()}>
       <Provider store={store}>
         <ConnectedRouter history={history}>
           <LoginRequired>
-            <Firestore>
+            <Firestore db={app.firestore()}>
               <Switch>
                 <Route exact path={Status.All}>
                   <Layout/>

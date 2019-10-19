@@ -21,8 +21,8 @@ export class TodoFirestore {
   uid: Uid | null
   todoCollection: firestore.CollectionReference
 
-  constructor(uid: Uid | null, db: firestore.Firestore | null=null) {
-    this.db = db ? db : firestore()
+  constructor(uid: Uid | null, db: firestore.Firestore) {
+    this.db = db
     this.uid = uid
     this.todoCollection = this.db.collection('todo')
   }

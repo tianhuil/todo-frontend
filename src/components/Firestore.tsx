@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { TodoHandler, validUserSelector } from "../store";
+import { firestore } from "firebase";
 
 const TodoHandlerContext = React.createContext<TodoHandler | null>(null)
 
@@ -10,10 +11,14 @@ export function useTodoHandler(): TodoHandler {
   return todoHandler
 }
 
-export const Firestore = (props: React.PropsWithChildren<{}>) => {
+interface IProps {
+  db: firestore.Firestore
+}
+
+export const Firestore = (props: React.PropsWithChildren<IProps>) => {
   const dispatch = useDispatch()
   const { uid } = useSelector(validUserSelector)
-  const todoHandler = new TodoHandler(uid)
+  const todoHandler = new TodoHandler(uid, props.db)
 
   React.useEffect(() => todoHandler.subscribe(dispatch))
 
