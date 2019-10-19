@@ -61,7 +61,7 @@ export class TodoFirestore {
     await this.todoCollection.doc(todo.id).set(todo)
   }
 
-  async modify(partialTodo: PartialTodo): Promise<void> {
+  async update(partialTodo: PartialTodo): Promise<void> {
     await this.todoCollection.doc(partialTodo.id).update(partialTodo)
   }
 

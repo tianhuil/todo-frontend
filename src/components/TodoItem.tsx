@@ -33,7 +33,7 @@ export const TodoItem = memo((props: ITodoProps) => {
 
   return <ListItem role={undefined} button divider={props.divider}>
     <Checkbox
-      onClick={() => todoHandler.modify(dispatch, {
+      onClick={() => todoHandler.update(dispatch, {
         id: props.id,
         completed: !todo.data.completed,
       })}

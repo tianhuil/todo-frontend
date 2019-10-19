@@ -55,7 +55,7 @@ test('Allowed to perform crud on own todo', async () => {
   expect(newTodos).toHaveLength(1)
   expect(newTodos[0].text).toBe('Todo')
 
-  await aliceApp.modify({id: newTodos[0].id, text: 'New Todo'})
+  await aliceApp.update({id: newTodos[0].id, text: 'New Todo'})
   const modifiedTodos = extractTodos(await aliceApp.query())
   expect(modifiedTodos).toHaveLength(1)
   expect(modifiedTodos[0].text).toBe('New Todo')

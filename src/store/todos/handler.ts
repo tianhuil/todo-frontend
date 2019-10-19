@@ -1,5 +1,5 @@
 import { TodoFirestore } from "../../firestore";
-import { addTodo, modifyTodo, deleteTodo } from "./action";
+import { createTodo, updateTodo, deleteTodo } from "./action";
 import { Todo, PartialTodo, Id, Uid } from "../../type";
 import { Dispatch } from "redux";
 import cuid from 'cuid'
@@ -18,14 +18,14 @@ export class TodoHandler {
       (change, synced) => {
         switch(change.type) {
           case 'added': {
-            dispatch(addTodo({
+            dispatch(createTodo({
               data: change.doc.data() as Todo,
               synced
             }))
             break
           }
           case 'modified': {
-            dispatch(modifyTodo({
+            dispatch(updateTodo({
               data: change.doc.data() as PartialTodo,
               synced
             }))
@@ -46,13 +46,13 @@ export class TodoHandler {
   // these dispatch 'pre-emptive' actions before sending to database
   // the confirmation will come through the subscription
   async create(dispatch: Dispatch, todo: Todo) {
-    dispatch(addTodo({ synced: false, data: todo }))
+    dispatch(createTodo({ synced: false, data: todo }))
     await this.todoFirestore.create(todo)
   }
 
-  async modify(dispatch: Dispatch, partialTodo: PartialTodo) {
-    dispatch(modifyTodo({ synced: false, data: partialTodo}))
-    await this.todoFirestore.modify(partialTodo)
+  async update(dispatch: Dispatch, partialTodo: PartialTodo) {
+    dispatch(updateTodo({ synced: false, data: partialTodo}))
+    await this.todoFirestore.update(partialTodo)
   }
 
   async delete(dispatch: Dispatch, id: Id) {
@@ -61,7 +61,7 @@ export class TodoHandler {
   }
 
   // helper function
-  async new(dispatch: Dispatch, text: string) {
+  async add(dispatch: Dispatch, text: string) {
     await this.create(dispatch, {id: cuid(), text, completed: false, owner: this.uid})
   }
 }
