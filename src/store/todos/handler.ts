@@ -6,11 +6,11 @@ import cuid from 'cuid'
 import { firestore } from "firebase";
 
 export class TodoHandler {
-  uid: Uid
+  owner: Uid
   todoFirestore: TodoFirestore
 
   constructor(uid: Uid, db: firestore.Firestore) {
-    this.uid = uid
+    this.owner = uid
     this.todoFirestore = new TodoFirestore(uid, db)
   }
 
@@ -63,6 +63,6 @@ export class TodoHandler {
 
   // helper function
   async add(dispatch: Dispatch, text: string) {
-    await this.create(dispatch, {id: cuid(), text, completed: false, owner: this.uid})
+    await this.create(dispatch, {id: cuid(), text, completed: false, owner: this.owner})
   }
 }

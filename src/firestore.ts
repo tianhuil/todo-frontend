@@ -18,18 +18,18 @@ export function initializeFirestoreOnce() {
 
 export class TodoFirestore {
   db: firestore.Firestore
-  uid: Uid | null
+  owner: Uid | null
   todoCollection: firestore.CollectionReference
 
   constructor(uid: Uid | null, db: firestore.Firestore) {
     this.db = db
-    this.uid = uid
+    this.owner = uid
     this.todoCollection = this.db.collection('todo')
   }
 
   protected todos(): firestore.Query {
-    if (this.uid) {
-      return this.todoCollection.where('owner', '==', this.uid)
+    if (this.owner) {
+      return this.todoCollection.where('owner', '==', this.owner)
     } else {
       return this.todoCollection
     }
