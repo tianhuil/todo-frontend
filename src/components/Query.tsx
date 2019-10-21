@@ -4,7 +4,7 @@ import { Theme, InputBase, IconButton, makeStyles } from '@material-ui/core'
 import SearchIcon from '@material-ui/icons/Search'
 import { fade } from '@material-ui/core/styles/colorManipulator'
 import { useSelector, useDispatch } from 'react-redux'
-import { stateQuerySelector, filterPush } from '../store'
+import { filterSelector, filterPush } from '../store'
 
 const useStyles = makeStyles((theme: Theme) => ({
   search: {
@@ -38,13 +38,13 @@ const useStyles = makeStyles((theme: Theme) => ({
 export const Query: React.SFC = () => {
   const classes = useStyles({})
   const dispatch = useDispatch()
-  const stateQuery = useSelector(stateQuerySelector)
+  const query = useSelector(filterSelector).query
 
   return <div className={classes.search}>
     <InputBase
       className={classes.searchInput}
       placeholder='Search&hellip;'
-      value={stateQuery}
+      value={query}
       onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
         dispatch(filterPush({query: event.target.value}))
       }

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { List, Paper, Theme } from '@material-ui/core'
-import { useReduxSelector, Status, State, stateStatusSelector, stateQuerySelector } from '../store';
+import { useReduxSelector, Status, State, filterSelector } from '../store';
 import { TodoItem } from './TodoItem'
 import { makeStyles } from '@material-ui/styles';
 
@@ -16,24 +16,29 @@ const useStyles = makeStyles((theme: Theme) => ({
 }))
 
 function todoListSelector(state: State) {
-  const status = stateStatusSelector(state)
+  const filter = filterSelector(state)
+
   function statusFilter(completed: boolean) {
-    switch(status) {
+    switch(filter.status) {
       case Status.All: return true
       case Status.Completed: return completed
       case Status.Incompleted: return !completed
     }
   }
 
-  const query = stateQuerySelector(state)
-  function queryFilter(text: string) {
-    return text ? text.toLowerCase().includes(query.toLowerCase()) : true
+  function substrFilter(substr: string, text: string) {
+    return substr
+        ? text.toLowerCase()
+              .includes(substr.toLowerCase())
+        : true
   }
+
   return state.todo.allIds.filter(
     id => {
       const todo = state.todo.getById[id]
       return statusFilter(todo.data.completed)
-        && queryFilter(todo.data.text)
+        && substrFilter(filter.query, todo.data.text)
+        && substrFilter(filter.hash,  todo.data.text)
     }
   )
 }

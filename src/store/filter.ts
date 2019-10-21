@@ -8,22 +8,24 @@ export const routerReducer = connectRouter(history)
 
 export type State = ReturnType<typeof routerReducer>
 
-export function statusSelector(state: State): Status {
-  const pathname = state.location.pathname as Status
-  return Object.values(Status).includes(pathname) ? (pathname) : Status.All
+export interface IFilter {
+  hash: string
+  status: Status
+  query: string
 }
 
-export function querySelector(state: State): string {
-  return new URLSearchParams(state.location.search).get('query') || ''
+export function filterSelector(state: State): IFilter {
+  const location = state.location
+  return {
+    hash: location.hash,
+    status: location.pathname as Status,
+    query: new URLSearchParams(location.search).get('query') || '',
+  }
 }
 
-interface PushArg {
-  status?: Status
-  query?: string
-}
-
-export function filterPush({status, query}: PushArg) {
+export function filterPush({status, query, hash}: Partial<IFilter>) {
   return push({
+    hash,
     pathname: status,
     search: query  ? `?query=${query}` : undefined,
   })

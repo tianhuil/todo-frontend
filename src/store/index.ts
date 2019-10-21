@@ -6,7 +6,7 @@ import { routerMiddleware } from 'connected-react-router'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import thunkMiddleware from 'redux-thunk'
 import { Status } from './utils'
-import { routerReducer, history, statusSelector, querySelector , filterPush } from './filter'
+import { routerReducer, history, filterSelector as _filterSelector, filterPush, IFilter } from './filter'
 import { userReducer, UserState } from './user/reducer'
 import { userAuthStateChange } from './user/handler'
 import { User } from 'firebase'
@@ -36,12 +36,8 @@ export function useReduxSelector<TSelected>(
   return useSelector<State, TSelected>(selector, equalityFn)
 }
 
-export function stateStatusSelector(state: State): Status {
-  return statusSelector(state.router)
-}
-
-export function stateQuerySelector(state: State): string {
-  return querySelector(state.router)
+export function filterSelector(state: State): IFilter {
+  return _filterSelector(state.router)
 }
 
 export function userSelector(state: State): UserState {

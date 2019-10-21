@@ -1,6 +1,6 @@
 import React from 'react'
 import IconButton from '@material-ui/core/IconButton'
-import { Status, useReduxSelector, stateStatusSelector, filterPush, stateQuerySelector } from '../store'
+import { Status, useReduxSelector, filterPush, filterSelector } from '../store'
 import { useDispatch } from 'react-redux'
 import { Tooltip, Theme, makeStyles } from '@material-ui/core'
 import { fade } from '@material-ui/core/styles'
@@ -34,8 +34,7 @@ type StatusButtonProps = React.PropsWithChildren<{
 
 export const StatusButton: React.SFC<StatusButtonProps> = (props) => {
   const dispatch = useDispatch()
-  const stateStatus = useReduxSelector(stateStatusSelector)
-  const stateQuery = useReduxSelector(stateQuerySelector)
+  const stateStatus = useReduxSelector(filterSelector).status
   const classes = useStyles()
   const className = (props.status === stateStatus) ? classes.active : classes.root
 
@@ -43,8 +42,7 @@ export const StatusButton: React.SFC<StatusButtonProps> = (props) => {
     <IconButton
       className={className}
       onClick={() => dispatch(filterPush({
-        status: props.status,
-        query: stateQuery,
+        status: props.status
       }))}
     >
       {props.children}
