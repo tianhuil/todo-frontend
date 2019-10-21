@@ -46,8 +46,8 @@ const Link = (props: React.PropsWithChildren<ILinkProps>) => {
 
 function linkHashtag(text: string): (string | JSX.Element)[] {
   const words = text.split(' ').map(
-    word => word.startsWith('#')
-      ? <Link to={{hash: word}}>{word}</Link>
+    (word, key) => word.startsWith('#')
+      ? <Link key={key} to={{hash: word}}>{word}</Link>
       : word
   )
   const result = new Array(words.length * 2 - 1)
