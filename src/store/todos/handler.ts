@@ -46,23 +46,29 @@ export class TodoHandler {
 
   // these dispatch 'pre-emptive' actions before sending to database
   // the confirmation will come through the subscription
-  async create(dispatch: Dispatch, todo: Todo) {
-    dispatch(createTodo({ synced: false, data: todo }))
-    await this.todoFirestore.create(todo)
+  create(todo: Todo) {
+    return async (dispatch: Dispatch) => {
+      dispatch(createTodo({ synced: false, data: todo }))
+      await this.todoFirestore.create(todo)
+    }
   }
 
-  async update(dispatch: Dispatch, partialTodo: PartialTodo) {
-    dispatch(updateTodo({ synced: false, data: partialTodo}))
-    await this.todoFirestore.update(partialTodo)
+  update(partialTodo: PartialTodo) {
+    return async (dispatch: Dispatch) => {
+      dispatch(updateTodo({ synced: false, data: partialTodo}))
+      await this.todoFirestore.update(partialTodo)
+    }
   }
 
-  async delete(dispatch: Dispatch, id: Id) {
-    dispatch(deleteTodo({synced: false, data: id}))
-    await this.todoFirestore.delete(id)
+  delete(id: Id) {
+    return async (dispatch: Dispatch) => {
+      dispatch(deleteTodo({synced: false, data: id}))
+      await this.todoFirestore.delete(id)
+    }
   }
 
   // helper function
-  async add(dispatch: Dispatch, text: string) {
-    await this.create(dispatch, {id: cuid(), text, completed: false, owner: this.owner})
+  add(text: string) {
+    return this.create({id: cuid(), text, completed: false, owner: this.owner})
   }
 }

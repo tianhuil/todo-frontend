@@ -24,7 +24,7 @@ export const AddTodo = () => {
   const classes = useStyles()
 
   function submitTodo() {
-    todoHandler.add(dispatch, inputField.current!.value)
+    dispatch(todoHandler.add(inputField.current!.value))
     inputField.current!.value = ''
   }
 

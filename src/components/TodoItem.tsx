@@ -68,10 +68,10 @@ export const TodoItem = memo((props: ITodoProps) => {
 
   return <ListItem role={undefined} button divider={props.divider}>
     <Checkbox
-      onClick={() => todoHandler.update(dispatch, {
+      onClick={() => dispatch(todoHandler.update({
         id: props.id,
         completed: !todo.data.completed,
-      })}
+      }))}
       checked={todo.data.completed}
       className={classes.checkbox}
       disableRipple
@@ -84,7 +84,7 @@ export const TodoItem = memo((props: ITodoProps) => {
     <ListItemSecondaryAction>
       <IconButton
         arial-label='Delete Todo'
-        onClick={() => todoHandler.delete(dispatch,  props.id)}
+        onClick={() => dispatch(todoHandler.delete(props.id))}
       >
         { (!todo.synced) ? <Sync/> : null }
         <DeleteOutlined />
